@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Opus – Class Detail – Supabase Connected</title>
+  <title>Opus – Class Detail</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     :root{
@@ -559,7 +559,7 @@ async function fetchAssignments(styleId) {
   const styleSearch = document.getElementById('styleSearch');
 
   document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
-  const base = 'category-manager.html'; // change if your manager file name differs
+  const base = 'index.html'; // change if your manager file name differs
   const url = currentStyleId
     ? `${base}?style_id=${encodeURIComponent(currentStyleId)}`
     : base;
