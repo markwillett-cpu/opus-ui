@@ -896,19 +896,26 @@ function showToast(message) {
 }
 
 
-  function applyLabels(labels){
-     window.currentClassLabels = labels;
-    document.querySelectorAll('.assign-btn .ab-label').forEach(el=>{
-      const btn = el.closest('.assign-btn');
-      if(!btn) return;
-      const cls = btn.dataset.class;
-      if(!cls) return;
-      const code = cls === 'Rest' ? 'REST' : cls;
-      const label = labels[code];
-      el.textContent = label ? `${cls} — ${label}` : cls;
-    });
-   
-  }
+function applyLabels(labels){
+  window.currentClassLabels = labels;
+
+  document.querySelectorAll('.assign-btn .ab-label').forEach(el=>{
+    const btn = el.closest('.assign-btn');
+    if (!btn) return;
+
+    const cls = btn.dataset.class;
+    if (!cls) return;
+
+    const code = cls.toUpperCase(); // A / B / C / REST
+    const displayCode = code === 'REST' ? 'Rest' : cls;
+    const label = labels[code];
+
+    el.textContent = label
+      ? `${displayCode} — ${label}`
+      : displayCode;
+  });
+}
+
 
   // Re-apply labels whenever style changes
   window.addEventListener('styleChanged', () => {
