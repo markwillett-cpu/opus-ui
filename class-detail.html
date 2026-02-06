@@ -825,7 +825,7 @@ styleSearch.addEventListener('input', () => {
 // BACK BUTTON
 // ═══════════════════════════════════════════════════════════
 document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
-  const base = /opus-ui/index.html';
+  const base = '/opus-ui/index.html';
   const url = currentStyleId
     ? `${base}?style_id=${encodeURIComponent(currentStyleId)}`
     : base;
