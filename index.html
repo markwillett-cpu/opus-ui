@@ -702,7 +702,7 @@ function scheduleSave() {
   function wireHandle(handle){
     if (!handle) return;
     handle.addEventListener('pointerdown', (ev) => {
-      if (!selectedStyleId) return;
+      if (!window.selectedStyleId) return;
       ev.preventDefault();
       handle.setPointerCapture(ev.pointerId);
 
