@@ -778,14 +778,14 @@ assignBtns.forEach(btn => {
 
     try {
       // Insert assignments
-      const assignments = trackIds.map(trackId => ({
-        track_id: trackId,
-        style_id: currentStyleId,
-        class_code: classCode
-      }));
+    const assignments = trackIds.map(songId => ({
+  song_id: songId,
+  style_id: currentStyleId,
+  class_code: classCode
+}));
 
-      const { error } = await upsertAssignments(assignments.map(a => ({ song_id: a.track_id, style_id: a.style_id, class_code: a.class_code })));
-      if (error) throw error;
+const { error } = await upsertAssignments(assignments);
+if (error) throw error;
 
       // Update local state
       trackIds.forEach(trackId => {
