@@ -774,8 +774,13 @@
 if (countErr) throw countErr;
 
 
-      const assignmentMap = await fetchAssignments(styleId);
-      const assignedCount = Object.keys(assignmentMap).length;
+      const { count: assignedCount, error: aErr } = await window.db
+  .from('sim_style_song_classes')
+  .select('library_song_id', { count: 'exact', head: true })
+  .eq('style_id', styleId);
+
+if (aErr) throw aErr;
+
       const pct = totalTracks > 0 ? Math.round((assignedCount / totalTracks) * 100) : 0;
 
       const countEl = document.getElementById(`style-track-count-${styleId}`);
