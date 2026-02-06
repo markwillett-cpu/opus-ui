@@ -953,14 +953,14 @@ if (initialStyleId) {
 <script>
   // Styles pane collapse toggle
   document.getElementById('toggleStyles')?.addEventListener('click', () => {
-    document.body.classList.toggle('styles-collapsed');
+  document.body.classList.toggle('styles-collapsed');
 
-    const btn = document.getElementById('toggleStyles');
-    if (!btn) return;
+  const btn = document.getElementById('toggleStyles');
+  if (!btn) return;
 
-    btn.textContent = document.body.classList.contains('styles-collapsed')
-      ? '☰'
-      : '☰';
-  });
+  btn.textContent = document.body.classList.contains('styles-collapsed')
+    ? '▶'
+    : '☰';
+});
 </script>
 </body>
