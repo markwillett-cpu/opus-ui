@@ -80,6 +80,7 @@
   font-weight:900;
   cursor:pointer;
 }
+
 /* When collapsed, left column becomes just the rail */
 .styles-collapsed .main-layout{
   grid-template-columns: 40px 1fr;
@@ -93,15 +94,6 @@
 /* When panel is hidden, the wrapper becomes just the rail */
 .styles-collapsed .styles-wrap{
   grid-template-columns: 40px;
-}
-
-/* collapsed layout */
-.styles-collapsed .main-layout{
-  grid-template-columns: 1fr; /* removes the left column */
-}
-
-.styles-collapsed .styles-panel{
-  display:none;
 }
 
     .panel-subheader{padding:12px 14px;border-bottom:1px solid var(--light)}
