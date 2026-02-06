@@ -364,6 +364,7 @@
 
   function openModal(){
     const labels = loadLabels();
+    applyLabels(labels);
     if(inA) inA.value = labels.A || '';
     if(inB) inB.value = labels.B || '';
     if(inC) inC.value = labels.C || '';
