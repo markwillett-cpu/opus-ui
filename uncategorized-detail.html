@@ -398,11 +398,13 @@
   }
 
   async function upsertAssignments(rows) {
-    const payload = rows.map(r => ({
-      style_id: r.style_id,
-      class_code: r.class_code,
-      library_song_id: r.song_id
-    }));
+    const payload = rows
+  .filter(r => r && r.song_id && r.style_id)
+  .map(r => ({
+    style_id: r.style_id,
+    class_code: r.class_code,
+    library_song_id: r.song_id
+  }));
 
     return await window.db
       .from('sim_style_song_classes')
