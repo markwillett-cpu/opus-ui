@@ -379,6 +379,63 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// =========================
+  // DB COMPAT HELPERS (aligned with class-detail)
+  // =========================
+  async function fetchStyleSongRows(styleId) {
+    const { data, error } = await window.db
+      .from('sim_style_songs')
+      .select('library_song_id, sim_duration_seconds, library_songs(id, artist, title, album, peak_year, run_time_seconds, styles)')
+      .eq('style_id', styleId);
+
+    if (error) throw error;
+
+    return (data || []).map(r => {
+      const s = r.library_songs || {};
+      return {
+        song_id: r.library_song_id,
+        sim_duration_seconds: r.sim_duration_seconds,
+        song: {
+          id: s.id,
+          artist: s.artist,
+          title: s.title,
+          album: s.album,
+          year: s.peak_year ?? '',
+          duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
+          styles: s.styles || ''
+        }
+      };
+    });
+  }
+
+  async function fetchAssignments(styleId) {
+    const { data, error } = await window.db
+      .from('sim_style_song_classes')
+      .select('library_song_id, class_code')
+      .eq('style_id', styleId);
+
+    if (error) throw error;
+
+    const m = {};
+    (data || []).forEach(r => {
+      if (r.library_song_id) m[r.library_song_id] = r.class_code;
+    });
+    return m;
+  }
+
+  async function upsertAssignments(rows) {
+    const payload = rows.map(r => ({
+      style_id: r.style_id,
+      class_code: r.class_code,
+      library_song_id: r.song_id
+    }));
+
+    return await window.db
+      .from('sim_style_song_classes')
+      .upsert(payload, { onConflict: 'library_song_id,style_id' });
+  }
+</script>
+<script>
 // ═══════════════════════════════════════════════════════════
 // SUPABASE CONFIGURATION
 // ═══════════════════════════════════════════════════════════
@@ -884,63 +941,7 @@ if (initialStyleId) {
   setTimeout(() => clearInterval(iv), 5000);
 }
 </script>
-<script>
-// =========================
-  // DB COMPAT HELPERS (aligned with class-detail)
-  // =========================
-  async function fetchStyleSongRows(styleId) {
-    const { data, error } = await window.db
-      .from('sim_style_songs')
-      .select('library_song_id, sim_duration_seconds, library_songs(id, artist, title, album, peak_year, run_time_seconds, styles)')
-      .eq('style_id', styleId);
 
-    if (error) throw error;
-
-    return (data || []).map(r => {
-      const s = r.library_songs || {};
-      return {
-        song_id: r.library_song_id,
-        sim_duration_seconds: r.sim_duration_seconds,
-        song: {
-          id: s.id,
-          artist: s.artist,
-          title: s.title,
-          album: s.album,
-          year: s.peak_year ?? '',
-          duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
-          styles: s.styles || ''
-        }
-      };
-    });
-  }
-
-  async function fetchAssignments(styleId) {
-    const { data, error } = await window.db
-      .from('sim_style_song_classes')
-      .select('library_song_id, class_code')
-      .eq('style_id', styleId);
-
-    if (error) throw error;
-
-    const m = {};
-    (data || []).forEach(r => {
-      if (r.library_song_id) m[r.library_song_id] = r.class_code;
-    });
-    return m;
-  }
-
-  async function upsertAssignments(rows) {
-    const payload = rows.map(r => ({
-      style_id: r.style_id,
-      class_code: r.class_code,
-      library_song_id: r.song_id
-    }));
-
-    return await window.db
-      .from('sim_style_song_classes')
-      .upsert(payload, { onConflict: 'library_song_id,style_id' });
-  }
-</script>
 <script>
   document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
     const base = 'category-manager.html'; // change if your manager file name differs
