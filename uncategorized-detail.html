@@ -206,12 +206,11 @@
 
 <!-- ── HEADER ── -->
 <div class="opus-header">
-  <div class="opus-title"><span class="hamburger">☰</span> Custom Channels Opus</div>
+  <div class="opus-title">Custom Channels Opus</div>
   <nav class="opus-nav">
-    <a class="nav-item" href="#">Tracks</a>
+    <a class="nav-item" href="http://opus.customchannels.net">Tracks</a>
     <a class="nav-item active" href="#">Playback Classes</a>
-    <a class="nav-item" href="#">Logs</a>
-    <a class="nav-item" href="#">Reports</a>
+ 
   </nav>
 </div>
 
@@ -948,7 +947,7 @@ if (initialStyleId) {
 
 <script>
   document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
-    const base = 'category-manager.html'; // change if your manager file name differs
+    const base = '/opus-ui/index.html'; // change if your manager file name differs
     const url = currentStyleId
       ? `${base}?style_id=${encodeURIComponent(currentStyleId)}`
       : base;
