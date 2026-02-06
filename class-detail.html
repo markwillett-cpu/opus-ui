@@ -27,6 +27,66 @@
     .main-layout{display:grid;grid-template-columns:320px 1fr;gap:18px;height:calc(100vh - 160px)}
     .panel{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;min-height:0}
     .panel-header{background:var(--secondary);color:#fff;padding:14px 16px;font-weight:900;font-size:14px}
+    /* ── Collapsible styles pane (matches Uncategorized page) ── */
+.panel-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.pane-toggle{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.35);
+  color:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.styles-wrap{
+  display:grid;
+  grid-template-columns: 40px 1fr; /* rail + panel */
+  min-height:0;
+}
+
+.styles-rail{
+  background: var(--secondary);
+  border-radius:8px;
+  display:flex;
+  justify-content:center;
+  padding-top:10px;
+  align-self: stretch;
+}
+
+.styles-rail .pane-toggle{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.35);
+  color:#fff;
+  width:30px;
+  height:30px;
+  border-radius:6px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* When collapsed, left column becomes just the rail */
+.styles-collapsed .main-layout{
+  grid-template-columns: 40px 1fr;
+}
+
+/* Hide only the big styles panel, keep the rail visible */
+.styles-collapsed .styles-panel{
+  display:none;
+}
+
+/* When panel is hidden, the wrapper becomes just the rail */
+.styles-collapsed .styles-wrap{
+  grid-template-columns: 40px;
+}
+
     .panel-subheader{padding:12px 14px;border-bottom:1px solid var(--light)}
     .search-input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-size:13px}
     .style-list{overflow:auto;padding:10px}
@@ -123,13 +183,23 @@
 <div class="container">
   <div class="main-layout">
 
-    <div class="panel">
-      <div class="panel-header">Styles (Playlists)</div>
-      <div class="panel-subheader"><input class="search-input" id="styleSearch" placeholder="Search styles..." /></div>
-      <div class="style-list" id="styleList">
-        <div class="loading">Loading styles...</div>
-      </div>
+    <div class="styles-wrap">
+  <div class="styles-rail">
+    <button class="pane-toggle" id="toggleStyles" type="button" title="Show/Hide Styles">☰</button>
+  </div>
+
+  <div class="panel styles-panel">
+    <div class="panel-header">
+      <span>Styles (Playlists)</span>
     </div>
+    <div class="panel-subheader">
+      <input class="search-input" id="styleSearch" placeholder="Search styles..." />
+    </div>
+    <div class="style-list" id="styleList">
+      <div class="loading">Loading styles...</div>
+    </div>
+  </div>
+</div>
 
     <div class="panel">
       <div class="category-header">
@@ -833,10 +903,22 @@ document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
 
   window.location.href = url;
 });
+// Styles pane collapse toggle
+document.getElementById('toggleStyles')?.addEventListener('click', () => {
+  document.body.classList.toggle('styles-collapsed');
+
+  const btn = document.getElementById('toggleStyles');
+  if (!btn) return;
+
+  btn.textContent = document.body.classList.contains('styles-collapsed')
+    ? '▶'
+    : '☰';
+});
 
 // ═══════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════
+  
 loadStyles();
 </script>
 </body>
