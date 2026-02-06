@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Opus – Class Detail</title>
@@ -559,7 +558,7 @@ async function fetchAssignments(styleId) {
   const styleSearch = document.getElementById('styleSearch');
 
   document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
-  const base = 'index.html'; // change if your manager file name differs
+  const base = '/index.html'; // change if your manager file name differs
   const url = currentStyleId
     ? `${base}?style_id=${encodeURIComponent(currentStyleId)}`
     : base;
