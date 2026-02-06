@@ -617,20 +617,23 @@
     }
   }
 
-  function scheduleSave() {
-    if (!selectedStyleId) return;
-    mixDirty = true;
-    if (mixSaveT) clearTimeout(mixSaveT);
-    mixSaveT = setTimeout(async () => {
-      try {
-        const { error } = await upsertWeights(selectedStyleId, currentWeights);
-        if (error) throw error;
-        mixDirty = false;
-      } catch (e) {
-        console.error('Failed to save class weights:', e);
-      }
-    }, 400);
-  }
+function scheduleSave() {
+  const styleId = window.selectedStyleId;
+  if (!styleId) return;
+
+  mixDirty = true;
+  if (mixSaveT) clearTimeout(mixSaveT);
+  mixSaveT = setTimeout(async () => {
+    try {
+      const { error } = await upsertWeights(styleId, currentWeights);
+      if (error) throw error;
+      mixDirty = false;
+    } catch (e) {
+      console.error('Failed to save class weights:', e);
+    }
+  }, 400);
+}
+
 
   function setPair(boundary, newLeftVal) {
     const [left, right] = boundary.split('|');
