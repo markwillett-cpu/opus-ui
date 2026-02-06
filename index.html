@@ -766,7 +766,13 @@
   async function loadStyleStats(styleId) {
     try {
       const rows = await fetchStyleSongRows(styleId);
-      const totalTracks = rows.length;
+      const { count: totalTracks, error: countErr } = await window.db
+  .from('sim_style_songs')
+  .select('library_song_id', { count: 'exact', head: true })
+  .eq('style_id', styleId);
+
+if (countErr) throw countErr;
+
 
       const assignmentMap = await fetchAssignments(styleId);
       const assignedCount = Object.keys(assignmentMap).length;
