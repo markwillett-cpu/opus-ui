@@ -542,8 +542,6 @@ async function loadTracksForStyle(styleId, styleNameText) {
     const rows = await fetchStyleSongRows(styleId);
     const assignmentMap = await fetchAssignments(styleId);
 
-        console.log('[uncat] styleId:', styleId, 'rows:', rows?.length, 'assignments:', Object.keys(assignmentMap || {}).length);
-
     if (!rows || rows.length === 0) {
       tbody.innerHTML = `<tr><td colspan="8" class="loading">No rows returned from sim_style_songs for this style_id.</td></tr>`;
       return;
@@ -861,7 +859,7 @@ function showToast(message) {
 }
 
  function loadLabels(){
-  const empty = {A:'',B:'',C:'',REST:''};
+  const empty = {A:'',B:'',C:'',Rest:''};
 
   try{
     // preferred: style_id key
