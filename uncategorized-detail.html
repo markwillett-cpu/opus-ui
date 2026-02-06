@@ -364,22 +364,25 @@
 
     if (error) throw error;
 
-    return (data || []).map(r => {
-      const s = r.library_songs || {};
-      return {
-        song_id: r.library_song_id,
-        sim_duration_seconds: r.sim_duration_seconds,
-        song: {
-          id: s.id,
-          artist: s.artist,
-          title: s.title,
-          album: s.album,
-          year: s.peak_year ?? '',
-          duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
-          styles: s.styles || ''
-        }
-      };
-    });
+    return (data || [])
+  .filter(r => r && r.library_song_id) // must have a song id
+  .map(r => {
+    const s = r.library_songs || null;
+
+    return {
+      song_id: r.library_song_id,
+      sim_duration_seconds: r.sim_duration_seconds ?? null,
+      song: s ? {
+        id: s.id ?? null,
+        artist: s.artist ?? '',
+        title: s.title ?? '',
+        album: s.album ?? '',
+        year: s.peak_year ?? '',
+        duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
+        styles: s.styles ?? ''
+      } : null
+    };
+  });
   }
 
   async function fetchAssignments(styleId) {
