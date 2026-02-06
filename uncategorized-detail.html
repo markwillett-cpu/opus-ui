@@ -480,18 +480,13 @@ async function upsertWeights(styleId, weights) {
 }
 
 function labelFor(code){
-  const labels = (function(){
-    try{
-      const raw = localStorage.getItem('opus.classLabels.' + (currentStyleId || 'default-style'));
-      return raw ? JSON.parse(raw) : {A:'',B:'',C:'',REST:''};
-    }catch(e){
-      return {A:'',B:'',C:'',REST:''};
-    }
-  })();
+  const labels = window.currentClassLabels || {A:'',B:'',C:'',REST:''};
   const v = labels[code] || '';
   if (code === 'REST') return v ? `Rest — ${v}` : 'Rest';
   return v ? `${code} — ${v}` : code;
 }
+
+  })();
 
 function renderMix() {
   const bar = document.getElementById('mixBar');
@@ -1093,7 +1088,7 @@ function showToast(message) {
 
 
   function applyLabels(labels){
-    window.currentClassLabels = labels;
+     window.currentClassLabels = labels;
     document.querySelectorAll('.assign-btn .ab-label').forEach(el=>{
       const btn = el.closest('.assign-btn');
       if(!btn) return;
