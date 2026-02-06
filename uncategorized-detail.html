@@ -482,7 +482,7 @@ async function upsertWeights(styleId, weights) {
 function labelFor(code){
   const labels = (function(){
     try{
-      const raw = localStorage.getItem('opus.classLabels.' + (currentStyleName || 'default-style'));
+      const raw = localStorage.getItem('opus.classLabels.' + (currentStyleId || 'default-style'));
       return raw ? JSON.parse(raw) : {A:'',B:'',C:'',REST:''};
     }catch(e){
       return {A:'',B:'',C:'',REST:''};
