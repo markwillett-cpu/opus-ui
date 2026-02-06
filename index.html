@@ -816,6 +816,11 @@ if (aErr) throw aErr;
     const h2 = document.querySelector('.category-header h2');
     if (h2 && styleName) h2.textContent = `Playback Classes for "${styleName}"`;
 
+    // Labels storage key depends on the header text, so reload labels after changing it
+if (typeof window.reloadClassLabelsForCurrentStyle === 'function') {
+  window.reloadClassLabelsForCurrentStyle();
+}
+
     // drive the rest of the page
     await loadWeights(styleId);
     await loadClassStats(styleId);
