@@ -622,16 +622,19 @@ function updateStats() {
   statAsPct.textContent = pct + '%';
 
   // Count by class
-  classCounts = { A: 0, B: 0, C: 0, Rest: 0 };
-  allTracks.forEach(t => {
-    if (t.class_code) classCounts[t.class_code]++;
-  });
+classCounts = { A: 0, B: 0, C: 0, REST: 0 };
 
-  // Update button counts
-  assignBtns.forEach(btn => {
-    const cls = btn.dataset.class;
-    btn.querySelector('.ab-count').textContent = classCounts[cls] || 0;
-  });
+allTracks.forEach(t => {
+  if (!t.class_code) return;
+  const code = String(t.class_code).toUpperCase();
+  if (classCounts[code] !== undefined) classCounts[code] += 1;
+});
+
+// Update button counts
+assignBtns.forEach(btn => {
+  const code = String(btn.dataset.class || '').toUpperCase();
+  btn.querySelector('.ab-count').textContent = classCounts[code] || 0;
+});
 }
 
 // ═══════════════════════════════════════════════════════════
