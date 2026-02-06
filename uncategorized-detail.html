@@ -1060,13 +1060,14 @@ function showToast(message) {
 // LABEL MANAGEMENT
 // ═══════════════════════════════════════════════════════════
 (function(){
-  function getStyleName(){
-    return currentStyleName || 'default-style';
-  }
+ function getStyleKey(){
+  return currentStyleId || 'default-style';
+}
 
-  function storageKey(){
-    return 'opus.classLabels.' + getStyleName();
-  }
+
+ function storageKey(){
+  return 'opus.classLabels.' + getStyleKey();
+}
 
   function loadLabels(){
     try{
