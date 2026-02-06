@@ -558,7 +558,7 @@ async function fetchAssignments(styleId) {
   const styleSearch = document.getElementById('styleSearch');
 
   document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
-  const base = '/index.html'; // change if your manager file name differs
+  const base = '/opus-ui/index.html'; // change if your manager file name differs
   const url = currentStyleId
     ? `${base}?style_id=${encodeURIComponent(currentStyleId)}`
     : base;
