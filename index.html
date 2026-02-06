@@ -403,8 +403,13 @@
     if(inR) inR.value='';
   });
 
-  // Apply on load
+   // Apply on load
   applyLabels(loadLabels());
+
+  // Expose a hook so we can reload labels after switching styles
+  window.reloadClassLabelsForCurrentStyle = function () {
+    applyLabels(loadLabels());
+  };
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
