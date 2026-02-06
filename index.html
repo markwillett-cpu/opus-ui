@@ -744,7 +744,6 @@ function scheduleSave() {
   // =========================
   // STYLES LIST (aligned with class-detail)
   // =========================
-  let selectedStyleId = null;
 
   const styleListEl = document.getElementById('styleList');
   const styleSearchEl = document.getElementById('styleSearch');
@@ -813,7 +812,6 @@ if (aErr) throw aErr;
     const active = document.querySelector(`.style-item[data-style-id="${styleId}"]`);
     if (active) active.classList.add('active');
 
-    selectedStyleId = styleId;
     window.selectedStyleId = styleId;
 
     // update header title (used by label storage key logic)
