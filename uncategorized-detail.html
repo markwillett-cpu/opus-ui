@@ -427,6 +427,9 @@ let currentStyleId = null;
 let currentStyleName = '';
 let allTracks = [];
 let classCounts = { A: 0, B: 0, C: 0, Rest: 0 };
+  
+// Styles to hide from UI lists
+const EXCLUDED_STYLE_NAMES = new Set(['AA Remix']);
 
 
 
@@ -468,8 +471,9 @@ async function loadStyles() {
     }
 
     // Filter out "AA Remix" 
-    const filteredStyles = styles.filter(style => style.name !== 'AA Remix');
-
+const filteredStyles = styles.filter(
+  style => !EXCLUDED_STYLE_NAMES.has(style.name)
+);
     styleList.innerHTML = filteredStyles.map(style => `
       <div class="style-item" data-style-id="${style.id}" data-style-name="${style.name}">
         <div class="style-name">${style.name}</div>
