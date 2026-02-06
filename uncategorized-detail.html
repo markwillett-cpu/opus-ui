@@ -1093,6 +1093,7 @@ function showToast(message) {
 
 
   function applyLabels(labels){
+    window.currentClassLabels = labels;
     document.querySelectorAll('.assign-btn .ab-label').forEach(el=>{
       const btn = el.closest('.assign-btn');
       if(!btn) return;
