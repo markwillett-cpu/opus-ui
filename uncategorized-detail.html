@@ -1069,14 +1069,28 @@ function showToast(message) {
   return 'opus.classLabels.' + getStyleKey();
 }
 
-  function loadLabels(){
-    try{
-      const raw = localStorage.getItem(storageKey());
-      return raw ? JSON.parse(raw) : {A:'',B:'',C:'',REST:''};
-    }catch(e){
-      return {A:'',B:'',C:'',REST:''};
+ function loadLabels(){
+  const empty = {A:'',B:'',C:'',REST:''};
+
+  try{
+    // preferred: style_id key
+    const rawById = localStorage.getItem(storageKey());
+    if (rawById) return JSON.parse(rawById);
+
+    // fallback: older style-name key (migrate forward once)
+    const legacyKey = 'opus.classLabels.' + (currentStyleName || 'default-style');
+    const rawByName = localStorage.getItem(legacyKey);
+    if (rawByName) {
+      localStorage.setItem(storageKey(), rawByName); // migrate to id-based key
+      return JSON.parse(rawByName);
     }
+
+    return empty;
+  } catch(e){
+    return empty;
   }
+}
+
 
   function applyLabels(labels){
     document.querySelectorAll('.assign-btn .ab-label').forEach(el=>{
