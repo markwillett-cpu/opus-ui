@@ -774,7 +774,9 @@ assignBtns.forEach(btn => {
 
     const classCode = btn.dataset.class;
     const checked = [...tbody.querySelectorAll('tr.checked')];
-    const trackIds = checked.map(tr => tr.dataset.trackId);
+const trackIds = checked
+  .map(tr => tr.getAttribute('data-track-id'))
+  .filter(Boolean);
 
     if (trackIds.length === 0) return;
 
