@@ -557,21 +557,22 @@ async function loadTracksForStyle(styleId, styleNameText) {
     const limitedRows = rows.slice(0, 3000);
     const showingCapped = rows.length > 3000;
 
-    allTracks = limitedRows
-      .filter(r => r.song_id && r.song)
-      .map(r => {
-        const s = r.song;
-        return {
-          id: r.song_id,
-          title: s.title || 'Unknown Title',
-          artist: s.artist || 'Unknown Artist',
-          album: s.album || '',
-          year: (s.year ?? ''),
-          duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
-          styles: s.styles || '',
-          class_code: assignmentMap[r.song_id] || null
-        };
-      });
+ allTracks = limitedRows
+  .filter(r => r && r.song_id) // keep rows even if join is null
+  .map(r => {
+    const s = r.song || {}; // join can be null; don't drop the row
+    return {
+      id: r.song_id,
+      title: (s.title || 'Unknown Title'),
+      artist: (s.artist || 'Unknown Artist'),
+      album: (s.album || ''),
+      year: (s.year ?? ''),
+      duration: Number(r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
+      styles: (s.styles || ''),
+      class_code: assignmentMap[r.song_id] || null
+    };
+  });
+
 
     // Show warning if tracks were capped
     if (showingCapped) {
