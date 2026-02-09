@@ -283,7 +283,9 @@
                 <option value="album">Sort by Album</option>
               <option value="year_desc">Sort by Peak Year (Newest)</option>
                 <option value="year_asc">Sort by Peak Year (Oldest)</option>
-              </select>
+                <option value="moved_desc">Sort by Move Date (Newest)</option>
+                <option value="moved_asc">Sort by Move Date (Oldest)</option>
+             </select>
             </div>
 
             <!-- scrollable table -->
@@ -674,11 +676,18 @@ function renderTable() {
   // Apply sort
   const sortField = sortBy.value;
 
-  const normStr = (v) => (v ?? '').toString().toLowerCase().trim();
-  const normYear = (v) => {
-    const n = parseInt(v, 10);
-    return Number.isFinite(n) ? n : null;
-  };
+const normStr = (v) => (v ?? '').toString().toLowerCase().trim();
+
+const normYear = (v) => {
+  const n = parseInt(v, 10);
+  return Number.isFinite(n) ? n : null;
+};
+
+const normDate = (v) => {
+  const t = v ? Date.parse(v) : NaN;
+  return Number.isFinite(t) ? t : null;
+};
+
 
   visible.sort((a, b) => {
     // Year sorting (Peak Year)
@@ -693,6 +702,18 @@ function renderTable() {
 
       return sortField === 'year_desc' ? (by - ay) : (ay - by);
     }
+// Move date sorting
+if (sortField === 'moved_desc' || sortField === 'moved_asc') {
+  const ad = normDate(a.moved_at);
+  const bd = normDate(b.moved_at);
+
+  // blanks last
+  if (ad === null && bd === null) return 0;
+  if (ad === null) return 1;
+  if (bd === null) return -1;
+
+  return sortField === 'moved_desc' ? (bd - ad) : (ad - bd);
+}
 
     // Default alpha sorts
     const aVal = normStr(a[sortField]);
