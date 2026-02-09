@@ -820,10 +820,16 @@ moveBtns.forEach(btn => {
         const { error } = await upsertAssignments(assignments);
         if (error) throw error;
         
-        songIds.forEach(id => {
-          const t = allTracks.find(x => x.id === id);
-          if (t) t.class_code = targetClass;
-        });
+        const nowIso = new Date().toISOString();
+
+songIds.forEach(id => {
+  const t = allTracks.find(x => x.id === id);
+  if (!t) return;
+  t.class_code = targetClass;
+  t.moved_at = nowIso;
+});
+
+        
         
         showToast(`✓ Moved ${songIds.length} track${songIds.length > 1 ? 's' : ''} to ${targetClass}`);
       }
