@@ -301,10 +301,12 @@
                     <th>Library Styles</th>
                     <th style="width:80px">Year</th>
                     <th style="width:80px">Time</th>
+                    <th style="width:140px">Move Date</th>
+
                   </tr>
                 </thead>
                 <tbody id="trackBody">
-                  <tr><td colspan="8" class="loading">Select a style to view tracks...</td></tr>
+                  <tr><td colspan="9" class="loading">Select a style to view tracks...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -546,14 +548,14 @@ async function loadTracksForStyle(styleId, styleNameText) {
   
 
 
-  tbody.innerHTML = '<tr><td colspan="8" class="loading">Loading tracks...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="9" class="loading">Loading tracks...</td></tr>';
 
   try {
     const rows = await fetchStyleSongRows(styleId);
     const assignmentMap = await fetchAssignments(styleId);
 
     if (!rows || rows.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8" class="loading">No rows returned from sim_style_songs for this style_id.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" class="loading">No rows returned from sim_style_songs for this style_id.</td></tr>`;
       return;
     }
 
@@ -616,7 +618,7 @@ const movedAt = a?.moved_at || null;
     window.dispatchEvent(new Event('styleChanged'));
   } catch (err) {
     console.error('Error loading tracks:', err);
-    tbody.innerHTML = `<tr><td colspan="8" class="error">Error loading tracks: ${err.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" class="error">Error loading tracks: ${err.message}</td></tr>`;
   }
 }
 
@@ -722,7 +724,7 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
   });
 
   if (visible.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#7f8c8d">No unassigned tracks found</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#7f8c8d">No unassigned tracks found</td></tr>';
     selectAll.checked = false;
     updateUI();
     return;
@@ -732,6 +734,10 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
     const mins = Math.floor(t.duration / 60);
     const secs = (t.duration % 60).toString().padStart(2, '0');
     const timeStr = `${mins}:${secs}`;
+    const movedStr = t.moved_at
+  ? new Date(t.moved_at).toLocaleString()
+  : '';
+
     
     return `
       <tr data-track-id="${t.id}">
@@ -742,7 +748,9 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
         <td>${t.album}</td>
         <td style="max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#7f8c8d;" title="${(t.styles||'').replace(/"/g,'&quot;')}">${formatStyles(t.styles||'')}</td>
         <td>${t.year}</td>
-        <td class="num">${timeStr}</td>
+       <td class="num">${timeStr}</td>
+<td style="color:#7f8c8d">${movedStr}</td>
+
       </tr>
     `;
   }).join('');
