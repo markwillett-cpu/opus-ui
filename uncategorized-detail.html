@@ -835,10 +835,15 @@ const { error } = await upsertAssignments(assignments);
 if (error) throw error;
 
       // Update local state
-      trackIds.forEach(trackId => {
-        const track = allTracks.find(t => t.id === trackId);
-        if (track) track.class_code = classCode;
-      });
+     const nowIso = new Date().toISOString();
+
+trackIds.forEach(trackId => {
+  const track = allTracks.find(t => t.id === trackId);
+  if (!track) return;
+  track.class_code = classCode;
+  track.moved_at = nowIso;
+});
+
 
       // Show success toast
       showToast(`✓ Assigned ${trackIds.length} track${trackIds.length > 1 ? 's' : ''} to class ${classCode}`);
