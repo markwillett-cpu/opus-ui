@@ -263,7 +263,7 @@
                   </tr>
                 </thead>
                 <tbody id="trackBody">
-                  <tr><td colspan="8" class="loading">Select a style...</td></tr>
+                  <tr><td colspan="9" class="loading">Select a style...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -525,14 +525,14 @@ async function loadTracksForStyle(styleId, styleNameText) {
   currentStyleId = styleId;
   currentStyleName = styleNameText || '';
   styleNameEl.textContent = styleNameText || 'Selected style';
-  tbody.innerHTML = '<tr><td colspan="8" class="loading">Loading tracks...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="9" class="loading">Loading tracks...</td></tr>';
 
   try {
     const rows = await fetchStyleSongRows(styleId);
     const assignmentMap = await fetchAssignments(styleId);
 
     if (!rows || rows.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8" class="loading">No rows returned from sim_style_songs for this style_id.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" class="loading">No rows returned from sim_style_songs for this style_id.</td></tr>`;
       return;
     }
 
@@ -592,7 +592,7 @@ moved_at: movedAt
     window.dispatchEvent(new Event('styleChanged'));
   } catch (err) {
     console.error('Error loading tracks:', err);
-    tbody.innerHTML = `<tr><td colspan="8" class="error">Error loading tracks: ${err.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" class="error">Error loading tracks: ${err.message}</td></tr>`;
   }
 }
 
@@ -697,7 +697,7 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
   });
 
   if (visible.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" class="loading">No tracks in this class</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" class="loading">No tracks in this class</td></tr>';
     selectAll.checked = false;
     updateUI();
     return;
