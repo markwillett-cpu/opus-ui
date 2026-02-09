@@ -338,16 +338,21 @@ async function fetchStyleSongRows(styleId) {
 async function fetchAssignments(styleId) {
   const { data, error } = await window.db
     .from('sim_style_song_classes')
-    .select('library_song_id, class_code')
+    .select('library_song_id, class_code, moved_at')
     .eq('style_id', styleId);
 
   if (error) throw error;
 
-  const m = {};
-  (data || []).forEach(r => {
-    if (r.library_song_id) m[r.library_song_id] = r.class_code;
-  });
-  return m;
+ const m = {};
+(data || []).forEach(r => {
+  if (!r.library_song_id) return;
+  m[r.library_song_id] = {
+    class_code: r.class_code,
+    moved_at: r.moved_at
+  };
+});
+return m;
+
 }
 
 async function upsertAssignments(rows) {
