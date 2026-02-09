@@ -565,8 +565,14 @@ async function loadTracksForStyle(styleId, styleNameText) {
   .map(r => {
     const s = r.song;
 
-    const rawClass = assignmentMap[r.song_id] || null;
-    const normClass = rawClass ? (rawClass.toLowerCase() === 'rest' ? 'Rest' : rawClass) : null;
+    const a = assignmentMap[r.song_id] || null;
+
+const rawClass = a?.class_code || null;
+const normClass = rawClass
+  ? (String(rawClass).toLowerCase() === 'rest' ? 'REST' : String(rawClass).toUpperCase())
+  : null;
+
+const movedAt = a?.moved_at || null;
 
     return {
       id: r.song_id,
@@ -576,7 +582,9 @@ async function loadTracksForStyle(styleId, styleNameText) {
       year: (s.year ?? ''),
       duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
       styles: s.styles || '',
-      class_code: normClass
+      class_code: normClass,
+      moved_at: movedAt
+
     };
   });
 
