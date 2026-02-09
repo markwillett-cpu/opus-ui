@@ -260,6 +260,7 @@
                     <th>Library Styles</th>
                     <th style="width:80px">Year</th>
                     <th style="width:80px">Time</th>
+                    <th style="width:140px">Move Date</th>
                   </tr>
                 </thead>
                 <tbody id="trackBody">
@@ -707,6 +708,9 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
     const mins = Math.floor((t.duration || 0) / 60);
     const secs = ((t.duration || 0) % 60).toString().padStart(2, '0');
     const timeStr = `${mins}:${secs}`;
+    const movedStr = t.moved_at
+      ? new Date(t.moved_at).toLocaleString()
+      : '';
     
     return `
       <tr data-track-id="${t.id}">
@@ -718,6 +722,7 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
         <td style="max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#7f8c8d;" title="${(t.styles||'').replace(/"/g,'&quot;')}">${formatStyles(t.styles||'')}</td>
         <td>${t.year}</td>
         <td class="num">${timeStr}</td>
+        <td style="color:#7f8c8d">${movedStr}</td>
       </tr>
     `;
   }).join('');
