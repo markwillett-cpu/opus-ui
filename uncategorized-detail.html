@@ -434,7 +434,7 @@ async function upsertAssignments(rows) {
 let currentStyleId = null;
 let currentStyleName = '';
 let allTracks = [];
-let classCounts = { A: 0, B: 0, C: 0, Rest: 0 };
+let classCounts = { A: 0, B: 0, C: 0, REST: 0 }; // FIXED: was Rest, now REST
 
 // Styles to hide from UI lists
 const EXCLUDED_STYLE_NAMES = new Set(['AA Remix']);
