@@ -771,38 +771,37 @@ function scheduleSave() {
     });
   }
 
-  async function loadStyleStats(styleId) {
-    try {
-      const rows = await fetchStyleSongRows(styleId);
-      const { count: totalTracks, error: countErr } = await window.db
-  .from('sim_style_songs')
-  .select('library_song_id', { count: 'exact', head: true })
-  .eq('style_id', styleId);
+ async function loadStyleStats(styleId) {
+  try {
+    // FIXED: Removed unnecessary fetchStyleSongRows call
+    const { count: totalTracks, error: countErr } = await window.db
+      .from('sim_style_songs')
+      .select('library_song_id', { count: 'exact', head: true })
+      .eq('style_id', styleId);
 
-if (countErr) throw countErr;
+    if (countErr) throw countErr;
 
+    const { count: assignedCount, error: aErr } = await window.db
+      .from('sim_style_song_classes')
+      .select('library_song_id', { count: 'exact', head: true })
+      .eq('style_id', styleId);
 
-      const { count: assignedCount, error: aErr } = await window.db
-  .from('sim_style_song_classes')
-  .select('library_song_id', { count: 'exact', head: true })
-  .eq('style_id', styleId);
+    if (aErr) throw aErr;
 
-if (aErr) throw aErr;
+    const pct = totalTracks > 0 ? Math.round((assignedCount / totalTracks) * 100) : 0;
 
-      const pct = totalTracks > 0 ? Math.round((assignedCount / totalTracks) * 100) : 0;
+    const countEl = document.getElementById(`style-track-count-${styleId}`);
+    const badgeEl = document.getElementById(`style-badge-${styleId}`);
 
-      const countEl = document.getElementById(`style-track-count-${styleId}`);
-      const badgeEl = document.getElementById(`style-badge-${styleId}`);
-
-      if (countEl) countEl.textContent = `${totalTracks} tracks`;
-      if (badgeEl) {
-        badgeEl.textContent = `${pct}% assigned`;
-        badgeEl.className = 'badge ' + (pct === 100 ? 'b-ok' : pct >= 50 ? 'b-warn' : 'b-bad');
-      }
-    } catch (err) {
-      console.error('Error loading style stats:', err);
+    if (countEl) countEl.textContent = `${totalTracks} tracks`;
+    if (badgeEl) {
+      badgeEl.textContent = `${pct}% assigned`;
+      badgeEl.className = 'badge ' + (pct === 100 ? 'b-ok' : pct >= 50 ? 'b-warn' : 'b-bad');
     }
+  } catch (err) {
+    console.error('Error loading style stats:', err);
   }
+}
 
   async function selectStyle(styleId, styleName) {
     if (!styleId) return;
