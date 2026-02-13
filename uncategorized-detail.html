@@ -249,14 +249,15 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
 <script src="db-helpers.js"></script>
 <script src="class-labels.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════
-// SUPABASE CONFIGURATION
+// SUPABASE CONFIGURATION (from config.js)
 // ═══════════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://quuxtalnpdcommlylwlp.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_Lvv-SG7eonq1OO3T5Y7ofg__aF4eDRQ';
+const SUPABASE_URL = OPUS_CONFIG.SUPABASE_URL;
+const SUPABASE_KEY = OPUS_CONFIG.SUPABASE_ANON_KEY;
 window.db = window.db || window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ═══════════════════════════════════════════════════════════
