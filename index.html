@@ -62,21 +62,9 @@
     .category-table th,.category-table td{padding:12px;font-size:13px;text-align:left;border-bottom:1px solid var(--light);white-space:nowrap}
     .category-table td.num{text-align:right;font-variant-numeric:tabular-nums}
     .category-table tbody tr:hover{background:#f8f9fa;cursor:pointer}
-    /* Action column: align header with button */
-.category-table .col-action{
-  text-align:right;
-  width:160px;
-}
-.category-table .col-action .link-btn{
-  margin-right:2px;
-}
-
-    /* Tracks column: tighter + centered */
-.category-table .col-tracks{
-  text-align:center;
-  width:120px;
-}
-
+    .category-table .col-action{text-align:right;width:160px}
+    .category-table .col-action .link-btn{margin-right:2px}
+    .category-table .col-tracks{text-align:center;width:120px}
     .cat-name{display:flex;align-items:center;gap:10px;font-weight:1000}
     .dot{width:12px;height:12px;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,.2)}
     .link-btn{background:transparent;border:1px solid var(--border);padding:7px 10px;border-radius:4px;cursor:pointer;font-size:12px;font-weight:900;color:var(--primary);transition:.2s}
@@ -84,9 +72,6 @@
     .footer{border-top:1px solid var(--border);background:var(--light);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px}
     .footer-note{color:#7f8c8d;font-size:12px;font-weight:800}
     .footer-actions{display:flex;gap:10px}
-
-    
-    /* ========== CLASS MIX (percentage slider) ========== */
     .mix-widget{background:#fff;border:1px solid var(--border);border-radius:6px;margin-bottom:14px;padding:14px 18px}
     .mix-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
     .mix-title{font-weight:900;font-size:14px;margin-bottom:4px}
@@ -97,12 +82,7 @@
     .mix-seg.seg-b{background:var(--core)}
     .mix-seg.seg-c{background:var(--library)}
     .mix-seg.seg-r{background:var(--rest)}
-    .mix-handle{
-      position:absolute;top:-3px;width:10px;height:24px;
-      background:#fff;border:1px solid var(--border);border-radius:6px;
-      box-shadow:0 1px 3px rgba(0,0,0,.15);
-      transform:translateX(-50%);cursor:ew-resize;
-    }
+    .mix-handle{position:absolute;top:-3px;width:10px;height:24px;background:#fff;border:1px solid var(--border);border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.15);transform:translateX(-50%);cursor:ew-resize}
     .mix-inputs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
     .mix-in{display:flex;align-items:center;gap:8px;background:var(--light);border:1px solid var(--border);border-radius:8px;padding:8px 10px}
     .mix-dot{width:10px;height:10px;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,.2)}
@@ -110,8 +90,6 @@
     .mix-in input{margin-left:auto;width:64px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:900;text-align:right;background:#fff}
     .mix-note{margin-top:10px;font-size:12px;color:#7f8c8d;font-weight:800;line-height:1.35}
     @media (max-width:1100px){.mix-inputs{grid-template-columns:repeat(2,1fr)}}
-
-
     @media (max-width:1100px){.main-layout{grid-template-columns:1fr;height:auto}.stats-banner{grid-template-columns:repeat(2,1fr)}}
   </style>
 </head>
@@ -130,46 +108,31 @@
 
   <div class="container">
     <div class="main-layout">
-      <!-- LEFT PANEL -->
       <div class="panel">
         <div class="panel-header">Styles (Playlists)</div>
         <div class="panel-subheader"><input class="search-input" id="styleSearch" placeholder="Search styles..." /></div>
         <div class="style-list" id="styleList">
-          <div class="style-item"><div class="style-name">Adult Rock Arrival</div><div class="style-meta"><span>1,002 tracks</span><span class="badge b-warn">92% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Adult Rock Crossroads</div><div class="style-meta"><span>1,435 tracks</span><span class="badge b-warn">87% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Alt Rock Now & Then</div><div class="style-meta"><span>1,306 tracks</span><span class="badge b-warn">92% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Indie Rock</div><div class="style-meta"><span>1,184 tracks</span><span class="badge b-ok">100% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Modern Rock</div><div class="style-meta"><span>841 tracks</span><span class="badge b-warn">87% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Shuffle</div><div class="style-meta"><span>1,993 tracks</span><span class="badge b-warn">92% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Chart Toppers</div><div class="style-meta"><span>1,171 tracks</span><span class="badge b-warn">87% assigned</span></div></div>
-          <div class="style-item active"><div class="style-name">Today's Pop</div><div class="style-meta"><span>213 tracks</span><span class="badge b-bad">0% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Pop!</div><div class="style-meta"><span>1,291 tracks</span><span class="badge b-warn">92% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Lite Pop & Soft Rock</div><div class="style-meta"><span>1,778 tracks</span><span class="badge b-warn">87% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Sunny</div><div class="style-meta"><span>1,511 tracks</span><span class="badge b-ok">100% assigned</span></div></div>
-          <div class="style-item"><div class="style-name">Bright Mix</div><div class="style-meta"><span>476 tracks</span><span class="badge b-warn">92% assigned</span></div></div>
+          <div class="loading">Loading styles...</div>
         </div>
       </div>
 
-      <!-- RIGHT PANEL -->
       <div class="panel">
         <div class="category-header">
           <div>
             <h2>Playback Classes for "Today's Pop"</h2>
 <div class="subtext">Classes are labeled A, B, C, and Rest. Labels can be customized per style. The class mix sets target class distribution for the playback algorithm.</div>
-            
           </div>
           <div class="header-actions">
         <button class="btn" id="editLabelsBtn">Edit class labels</button>
-
             <button class="btn">Export Summary</button>
             <button class="btn primary" id="viewUncatBtn">View Uncategorized</button>
           </div>
         </div>
 
         <div class="stats-banner">
-          <div class="stat-box"><div class="stat-label">Total Tracks</div><div class="stat-value">213</div></div>
-          <div class="stat-box"><div class="stat-label">Assigned</div><div class="stat-value">0</div><div class="stat-sub">0.0%</div></div>
-          <div class="stat-box"><div class="stat-label">Unassigned</div><div class="stat-value">213</div><div class="stat-sub">100.0%</div></div>
+          <div class="stat-box"><div class="stat-label">Total Tracks</div><div class="stat-value" id="statTotal">—</div></div>
+          <div class="stat-box"><div class="stat-label">Assigned</div><div class="stat-value" id="statAssigned">—</div><div class="stat-sub" id="statAssignedPct">—</div></div>
+          <div class="stat-box"><div class="stat-label">Unassigned</div><div class="stat-value" id="statUnassigned">—</div><div class="stat-sub" id="statUnassignedPct">—</div></div>
           <div class="stat-box"><div class="stat-label">Classes</div><div class="stat-value">4</div></div>
         </div>
 
@@ -178,8 +141,6 @@
             <strong>How it works:</strong> The class mix below defines target class distribution for the playback algorithm. Each listener gets a unique stream weighted toward these proportions while maintaining artist/song separation rules. Review Uncategorized tracks first, assign them to classes (A, B, C, or Rest), then set the mix. <strong>Optional:</strong> Classes are not required. If none are assigned, playback uses standard artist and title separation rules only.
           </div>
 
-          
-          <!-- CLASS MIX (percentage-based, replaces scheduler) -->
           <div class="mix-widget" id="mixWidget">
             <div class="mix-head">
               <div>
@@ -205,12 +166,8 @@
               <div class="mix-in"><span class="mix-dot" style="background:var(--library)"></span><span class="mix-lbl" data-code="C">C</span><input id="mixC" type="number" min="0" max="100" step="1" /></div>
               <div class="mix-in"><span class="mix-dot" style="background:var(--rest)"></span><span class="mix-lbl" data-code="REST">Rest</span><input id="mixR" type="number" min="0" max="100" step="1" /></div>
             </div>
-
-            
           </div>
 
-
-          <!-- CLASS TABLE -->
           <table class="category-table">
             <thead>
               <tr>
@@ -223,36 +180,36 @@
             <tbody>
               <tr data-class="A">
                 <td><div class="cat-name"><span class="dot" style="background:var(--power)"></span> <span class="class-code" data-class-code="A">A</span> <span class="class-alias" data-class-code="A"></span></div></td>
-                <td class="col-tracks">0</td><td class="num">0.0%</td>
+                <td class="col-tracks" id="count-A">—</td><td class="num" id="pct-A">—</td>
 <td class="col-action">
   <button class="link-btn view-class">View songs</button>
 </td>
               </tr>
               <tr data-class="B">
                 <td><div class="cat-name"><span class="dot" style="background:var(--core)"></span> <span class="class-code" data-class-code="B">B</span> <span class="class-alias" data-class-code="B"></span></div></td>
-                <td class="col-tracks">0</td><td class="num">0.0%</td>
+                <td class="col-tracks" id="count-B">—</td><td class="num" id="pct-B">—</td>
 <td class="col-action">
   <button class="link-btn view-class">View songs</button>
 </td>
               </tr>
               <tr data-class="C">
                 <td><div class="cat-name"><span class="dot" style="background:var(--library)"></span> <span class="class-code" data-class-code="C">C</span> <span class="class-alias" data-class-code="C"></span></div></td>
-                <td class="col-tracks">0</td><td class="num">0.0%</td>
+                <td class="col-tracks" id="count-C">—</td><td class="num" id="pct-C">—</td>
 <td class="col-action">
   <button class="link-btn view-class">View songs</button>
 </td>
               </tr>
               <tr data-class="Rest">
                 <td><div class="cat-name"><span class="dot" style="background:var(--rest)"></span> <span class="class-code" data-class-code="REST">Rest</span> <span class="class-alias" data-class-code="REST"></span></div></td>
-                <td class="col-tracks">0</td><td class="num">0.0%</td>
+                <td class="col-tracks" id="count-REST">—</td><td class="num" id="pct-REST">—</td>
 <td class="col-action">
   <button class="link-btn view-class">View songs</button>
 </td>
               </tr>
               <tr data-class="Uncategorized">
                 <td><div class="cat-name"><span class="dot" style="background: #ffffff; border: 1px solid var(--border)"></span> Uncategorized</div></td>
-                <td class="num">213</td>
-                <td class="num">100.0%</td>
+                <td class="num" id="count-Uncategorized">—</td>
+                <td class="num" id="pct-Uncategorized">—</td>
 <td class="col-action">
   <button class="link-btn view-class">View songs</button>
 </td>
@@ -302,301 +259,138 @@
   </div>
 </div>
 
-
-<script>
-(function(){
-  function getStyleName(){
-    // Try to find the style name from a heading that includes quotes, e.g., Playback Classes for “Today’s Pop”
-    const h = document.querySelector('h1, h2, .page-title');
-    if(!h) return 'default-style';
-    const t = h.textContent || '';
-    const m = t.match(/["“](.+?)["”]/);
-    return (m && m[1]) ? m[1].trim() : 'default-style';
-  }
-
-  function storageKey(){
-    return 'opus.classLabels.' + getStyleName();
-  }
-
-  function loadLabels(){
-    try{
-      const raw = localStorage.getItem(storageKey());
-      return raw ? JSON.parse(raw) : {A:'',B:'',C:'',REST:''};
-    }catch(e){
-      return {A:'',B:'',C:'',REST:''};
-    }
-  }
-
-  function saveLabels(labels){
-    localStorage.setItem(storageKey(), JSON.stringify(labels));
-  }
-
-  function applyLabels(labels)
-{
-    // Store globally so render() can access
-    window.loadedLabels = labels;
-    
-    // Update alias spans next to the A/B/C/Rest codes
-    document.querySelectorAll('.class-alias[data-class-code]').forEach(el=>{
-      const code = el.getAttribute('data-class-code');
-      const v = labels[code] || '';
-      el.textContent = v ? ('— ' + v) : '';
-      el.style.color = '#7f8c8d';
-      el.style.fontWeight = '800';
-      el.style.marginLeft = '6px';
-      el.style.fontSize = '12px';
-    });
-    
-    // Refresh UI pieces that show labels
-    if (typeof window.refreshMixUI === 'function') window.refreshMixUI();
-  }
-
-  const btn = document.getElementById('editLabelsBtn');
-  const modal = document.getElementById('labelsModal');
-  const closeBtn = document.getElementById('closeLabelsModal');
-  const saveBtn = document.getElementById('saveLabels');
-  const resetBtn = document.getElementById('resetLabels');
-
-  const inA = document.getElementById('labelA');
-  const inB = document.getElementById('labelB');
-  const inC = document.getElementById('labelC');
-  const inR = document.getElementById('labelR');
-
-  function openModal(){
-    const labels = loadLabels();
-    applyLabels(labels);
-    if(inA) inA.value = labels.A || '';
-    if(inB) inB.value = labels.B || '';
-    if(inC) inC.value = labels.C || '';
-    if(inR) inR.value = labels.REST || '';
-    if(modal) modal.style.display = 'block';
-  }
-
-  function closeModal(){
-    if(modal) modal.style.display = 'none';
-  }
-
-  if(btn) btn.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
-  if(closeBtn) closeBtn.addEventListener('click', function(e){ e.preventDefault(); closeModal(); });
-  if(modal) modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
-
-  if(saveBtn) saveBtn.addEventListener('click', function(e){
-    e.preventDefault();
-    const labels = {
-      A: (inA && inA.value || '').trim(),
-      B: (inB && inB.value || '').trim(),
-      C: (inC && inC.value || '').trim(),
-      REST: (inR && inR.value || '').trim()
-    };
-    saveLabels(labels);
-    applyLabels(labels);
-    closeModal();
-  });
-
-  if(resetBtn) resetBtn.addEventListener('click', function(e){
-    e.preventDefault();
-    const labels = {A:'',B:'',C:'',REST:''};
-    saveLabels(labels);
-    applyLabels(labels);
-    if(inA) inA.value='';
-    if(inB) inB.value='';
-    if(inC) inC.value='';
-    if(inR) inR.value='';
-  });
-
-   // Apply on load
-  applyLabels(loadLabels());
-
-  // Expose a hook so we can reload labels after switching styles
-  window.reloadClassLabelsForCurrentStyle = function () {
-    applyLabels(loadLabels());
-  };
-})();
-</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="db-helpers.js"></script>
+<script src="class-labels.js"></script>
 <script>
-    // =========================
-  // SUPABASE CONFIG (aligned with class-detail)
-  // =========================
-  const SUPABASE_URL = 'https://quuxtalnpdcommlylwlp.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_Lvv-SG7eonq1OO3T5Y7ofg__aF4eDRQ';
-  window.db = window.db || window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-</script>
-<script>
-// ---------- DB compatibility helpers (aligned with class-detail) ----------
-  async function fetchStyleSongRows(styleId) {
-    const { data, error } = await window.db
-      .from('sim_style_songs')
-      .select('library_song_id, sim_duration_seconds, library_songs(id, artist, title, album, peak_year, run_time_seconds, styles)')
-      .eq('style_id', styleId);
+// ═══════════════════════════════════════════════════════════
+// SUPABASE CONFIGURATION
+// ═══════════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://quuxtalnpdcommlylwlp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Lvv-SG7eonq1OO3T5Y7ofg__aF4eDRQ';
+window.db = window.db || window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    if (error) throw error;
+// ═══════════════════════════════════════════════════════════
+// CLASS MIX WEIGHTS (sim_style_class_weights)
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_WEIGHTS = { A: 30, B: 40, C: 30, REST: 0 };
 
-    return (data || []).map(r => {
-      const s = r.library_songs || {};
-      return {
-        song_id: r.library_song_id,
-        song: {
-          id: s.id,
-          artist: s.artist,
-          title: s.title,
-          album: s.album,
-          year: s.peak_year ?? '',
-          duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
-          styles: s.styles || ''
-        }
-      };
-    });
+async function fetchWeights(styleId) {
+  const { data, error } = await window.db
+    .from('sim_style_class_weights')
+    .select('class_code, weight_pct')
+    .eq('style_id', styleId);
+
+  if (error) throw error;
+
+  const out = { ...DEFAULT_WEIGHTS };
+  (data || []).forEach(r => {
+    const code = (r.class_code || '').toUpperCase();
+    if (out[code] !== undefined) out[code] = Number(r.weight_pct) || 0;
+  });
+
+  return normalizeWeights(out);
+}
+
+async function upsertWeights(styleId, weights) {
+  const payload = ['A','B','C','REST'].map(code => ({
+    style_id: styleId,
+    class_code: code,
+    weight_pct: weights[code] ?? 0
+  }));
+
+  return await window.db
+    .from('sim_style_class_weights')
+    .upsert(payload, { onConflict: 'style_id,class_code' });
+}
+
+function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+
+function normalizeWeights(w) {
+  const codes = ['A','B','C','REST'];
+  const raw = codes.map(c => clamp(Math.round(Number(w[c]||0)), 0, 100));
+  let sum = raw.reduce((a,b)=>a+b,0);
+
+  if (sum === 100) return { A: raw[0], B: raw[1], C: raw[2], REST: raw[3] };
+  if (sum === 0) return { ...DEFAULT_WEIGHTS };
+
+  const scaled = raw.map(v => (v / sum) * 100);
+  const ints = scaled.map(v => Math.floor(v));
+  let remain = 100 - ints.reduce((a,b)=>a+b,0);
+
+  const fracs = scaled.map((v,i)=>({i, frac: v - Math.floor(v)})).sort((a,b)=>b.frac-a.frac);
+  for (let k=0; k<remain; k++) ints[fracs[k % fracs.length].i] += 1;
+
+  return { A: ints[0], B: ints[1], C: ints[2], REST: ints[3] };
+}
+
+// ═══════════════════════════════════════════════════════════
+// MIX UI WIRING
+// ═══════════════════════════════════════════════════════════
+let currentWeights = { ...DEFAULT_WEIGHTS };
+let mixDirty = false;
+let mixSaveT = null;
+
+const mixSummaryEl = document.getElementById('mixSummary');
+const mixBarEl = document.getElementById('mixBar');
+const resetMixBtn = document.getElementById('resetMixBtn');
+
+const inA = document.getElementById('mixA');
+const inB = document.getElementById('mixB');
+const inC = document.getElementById('mixC');
+const inR = document.getElementById('mixR');
+
+function labelFor(code){
+  const labels = window.currentClassLabels || {A:'',B:'',C:'',REST:''};
+  const v = labels[code] || '';
+  if (code === 'REST') return v ? `Rest — ${v}` : 'Rest';
+  return v ? `${code} — ${v}` : code;
+}
+
+function renderMix() {
+  if (!mixBarEl) return;
+
+  const a = currentWeights.A, b = currentWeights.B, c = currentWeights.C, r = currentWeights.REST;
+
+  const segA = mixBarEl.querySelector('.mix-seg.seg-a');
+  const segB = mixBarEl.querySelector('.mix-seg.seg-b');
+  const segC = mixBarEl.querySelector('.mix-seg.seg-c');
+  const segR = mixBarEl.querySelector('.mix-seg.seg-r');
+
+  if (segA) segA.style.width = `${a}%`;
+  if (segB) segB.style.width = `${b}%`;
+  if (segC) segC.style.width = `${c}%`;
+  if (segR) segR.style.width = `${r}%`;
+
+  const handles = [...mixBarEl.querySelectorAll('.mix-handle')];
+  const cumA = a;
+  const cumAB = a + b;
+  const cumABC = a + b + c;
+
+  handles.forEach(h => {
+    const key = h.dataset.boundary || '';
+    let pct = 0;
+    if (key === 'A|B') pct = cumA;
+    if (key === 'B|C') pct = cumAB;
+    if (key === 'C|REST') pct = cumABC;
+    h.style.left = `${pct}%`;
+  });
+
+  if (inA) inA.value = a;
+  if (inB) inB.value = b;
+  if (inC) inC.value = c;
+  if (inR) inR.value = r;
+
+  document.querySelectorAll('.mix-lbl[data-code]').forEach(el=>{
+    const code = el.getAttribute('data-code');
+    el.textContent = labelFor(code);
+  });
+
+  if (mixSummaryEl) {
+    mixSummaryEl.textContent =
+      `${labelFor('A')}: ${a}% • ${labelFor('B')}: ${b}% • ${labelFor('C')}: ${c}% • ${labelFor('REST')}: ${r}%`;
   }
-
-  async function fetchAssignments(styleId) {
-    const { data, error } = await window.db
-      .from('sim_style_song_classes')
-      .select('library_song_id, class_code')
-      .eq('style_id', styleId);
-
-    if (error) throw error;
-
-    const m = {};
-    (data || []).forEach(a => {
-      const id = a.library_song_id;
-      if (id) m[id] = a.class_code;
-    });
-    return m;
-  }
-
-</script>
-
-<script>
-  // =========================
-  // CLASS MIX WEIGHTS (sim_style_class_weights)
-  // =========================
-  const DEFAULT_WEIGHTS = { A: 30, B: 40, C: 30, REST: 0 };
-
-  async function fetchWeights(styleId) {
-    const { data, error } = await window.db
-      .from('sim_style_class_weights')
-      .select('class_code, weight_pct')
-      .eq('style_id', styleId);
-
-    if (error) throw error;
-
-    const out = { ...DEFAULT_WEIGHTS };
-    (data || []).forEach(r => {
-      const code = (r.class_code || '').toUpperCase();
-      if (out[code] !== undefined) out[code] = Number(r.weight_pct) || 0;
-    });
-
-    return normalizeWeights(out);
-  }
-
-  async function upsertWeights(styleId, weights) {
-    const payload = ['A','B','C','REST'].map(code => ({
-      style_id: styleId,
-      class_code: code,
-      weight_pct: weights[code] ?? 0
-    }));
-
-    return await window.db
-      .from('sim_style_class_weights')
-      .upsert(payload, { onConflict: 'style_id,class_code' });
-  }
-
-  function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
-
-  function normalizeWeights(w) {
-    // integer normalize to sum exactly 100
-    const codes = ['A','B','C','REST'];
-    const raw = codes.map(c => clamp(Math.round(Number(w[c]||0)), 0, 100));
-    let sum = raw.reduce((a,b)=>a+b,0);
-
-    if (sum === 100) return { A: raw[0], B: raw[1], C: raw[2], REST: raw[3] };
-
-    // if everything is 0, fall back to defaults
-    if (sum === 0) return { ...DEFAULT_WEIGHTS };
-
-    // scale to 100
-    const scaled = raw.map(v => (v / sum) * 100);
-    const ints = scaled.map(v => Math.floor(v));
-    let remain = 100 - ints.reduce((a,b)=>a+b,0);
-
-    // distribute remaining to largest fractional parts
-    const fracs = scaled.map((v,i)=>({i, frac: v - Math.floor(v)})).sort((a,b)=>b.frac-a.frac);
-    for (let k=0; k<remain; k++) ints[fracs[k % fracs.length].i] += 1;
-
-    return { A: ints[0], B: ints[1], C: ints[2], REST: ints[3] };
-  }
-
-  // ===== UI wiring =====
-  let currentWeights = { ...DEFAULT_WEIGHTS };
-  let mixDirty = false;
-  let mixSaveT = null;
-
-  const mixSummaryEl = document.getElementById('mixSummary');
-  const mixBarEl = document.getElementById('mixBar');
-  const resetMixBtn = document.getElementById('resetMixBtn');
-
-  const inA = document.getElementById('mixA');
-  const inB = document.getElementById('mixB');
-  const inC = document.getElementById('mixC');
-  const inR = document.getElementById('mixR');
-
-  function labelFor(code){
-    const labels = window.loadedLabels || {A:'',B:'',C:'',REST:''};
-    const v = labels[code] || '';
-    if (code === 'REST') return v ? `Rest — ${v}` : 'Rest';
-    return v ? `${code} — ${v}` : code;
-  }
-
-  function renderMix() {
-    if (!mixBarEl) return;
-
-    const a = currentWeights.A, b = currentWeights.B, c = currentWeights.C, r = currentWeights.REST;
-
-    // segments
-    const segA = mixBarEl.querySelector('.mix-seg.seg-a');
-    const segB = mixBarEl.querySelector('.mix-seg.seg-b');
-    const segC = mixBarEl.querySelector('.mix-seg.seg-c');
-    const segR = mixBarEl.querySelector('.mix-seg.seg-r');
-
-    if (segA) segA.style.width = `${a}%`;
-    if (segB) segB.style.width = `${b}%`;
-    if (segC) segC.style.width = `${c}%`;
-    if (segR) segR.style.width = `${r}%`;
-
-    // handles at cumulative boundaries
-    const handles = [...mixBarEl.querySelectorAll('.mix-handle')];
-    const cumA = a;
-    const cumAB = a + b;
-    const cumABC = a + b + c;
-
-    handles.forEach(h => {
-      const key = h.dataset.boundary || '';
-      let pct = 0;
-      if (key === 'A|B') pct = cumA;
-      if (key === 'B|C') pct = cumAB;
-      if (key === 'C|REST') pct = cumABC;
-      h.style.left = `${pct}%`;
-    });
-
-    // inputs
-    if (inA) inA.value = a;
-    if (inB) inB.value = b;
-    if (inC) inC.value = c;
-    if (inR) inR.value = r;
-
-    // labels
-    document.querySelectorAll('.mix-lbl[data-code]').forEach(el=>{
-      const code = el.getAttribute('data-code');
-      el.textContent = labelFor(code);
-    });
-
-    // summary
-    if (mixSummaryEl) {
-      mixSummaryEl.textContent =
-        `${labelFor('A')}: ${a}% • ${labelFor('B')}: ${b}% • ${labelFor('C')}: ${c}% • ${labelFor('REST')}: ${r}%`;
-    }
-  }
+}
 
 function scheduleSave() {
   const styleId = window.selectedStyleId;
@@ -612,149 +406,138 @@ function scheduleSave() {
     } catch (e) {
       console.error('Failed to save class weights:', e);
     }
-  }, 400);
+  }, CONFIG.AUTO_SAVE_DELAY);
 }
 
+function setPair(boundary, newLeftVal) {
+  const [left, right] = boundary.split('|');
+  const sum = (currentWeights[left] ?? 0) + (currentWeights[right] ?? 0);
+  const clampedLeft = clamp(newLeftVal, 0, sum);
+  currentWeights[left] = clampedLeft;
+  currentWeights[right] = sum - clampedLeft;
+  currentWeights = normalizeWeights(currentWeights);
+  renderMix();
+  scheduleSave();
+}
 
-  function setPair(boundary, newLeftVal) {
-    const [left, right] = boundary.split('|');
-    const sum = (currentWeights[left] ?? 0) + (currentWeights[right] ?? 0);
-    const clampedLeft = clamp(newLeftVal, 0, sum);
-    currentWeights[left] = clampedLeft;
-    currentWeights[right] = sum - clampedLeft;
-    currentWeights = normalizeWeights(currentWeights);
-    renderMix();
-    scheduleSave();
+function setSingle(code, val) {
+  const v = clamp(val, 0, 100);
+  const other = ['A','B','C','REST'].filter(c=>c!==code);
+  let remaining = 100 - v;
+
+  const curSum = other.reduce((s,c)=>s + (currentWeights[c] ?? 0), 0);
+  const next = { ...currentWeights, [code]: v };
+  if (curSum <= 0) {
+    const each = Math.floor(remaining / other.length);
+    other.forEach(c => next[c] = each);
+    next[other[other.length-1]] += remaining - each*other.length;
+  } else {
+    other.forEach(c => next[c] = Math.round(((currentWeights[c] ?? 0) / curSum) * remaining));
   }
 
-  function setSingle(code, val) {
-    const v = clamp(val, 0, 100);
-    const other = ['A','B','C','REST'].filter(c=>c!==code);
-    let remaining = 100 - v;
+  currentWeights = normalizeWeights(next);
+  renderMix();
+  scheduleSave();
+}
 
-    // distribute remaining proportional to current others (or evenly)
-    const curSum = other.reduce((s,c)=>s + (currentWeights[c] ?? 0), 0);
-    const next = { ...currentWeights, [code]: v };
-    if (curSum <= 0) {
-      const each = Math.floor(remaining / other.length);
-      other.forEach(c => next[c] = each);
-      // give remainder to last
-      next[other[other.length-1]] += remaining - each*other.length;
-    } else {
-      other.forEach(c => next[c] = Math.round(((currentWeights[c] ?? 0) / curSum) * remaining));
-    }
-
-    currentWeights = normalizeWeights(next);
-    renderMix();
-    scheduleSave();
-  }
-
-  async function loadWeights(styleId) {
-    if (!styleId) return;
-    try {
-      currentWeights = await fetchWeights(styleId);
-      renderMix();
-    } catch (e) {
-      console.error('Failed to load class weights:', e);
-      currentWeights = { ...DEFAULT_WEIGHTS };
-      renderMix();
-    }
-  }
-
-  // inputs
-  function wireInput(el, code){
-    if (!el) return;
-    el.addEventListener('change', () => setSingle(code, Number(el.value)));
-    el.addEventListener('blur', () => setSingle(code, Number(el.value)));
-  }
-  wireInput(inA,'A'); wireInput(inB,'B'); wireInput(inC,'C'); wireInput(inR,'REST');
-
-  // reset
-  if (resetMixBtn) {
-    resetMixBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      currentWeights = { ...DEFAULT_WEIGHTS };
-      renderMix();
-      scheduleSave();
-    });
-  }
-
-  // drag handles (pair-wise)
-  function wireHandle(handle){
-    if (!handle) return;
-    handle.addEventListener('pointerdown', (ev) => {
-      if (!window.selectedStyleId) return;
-      ev.preventDefault();
-      handle.setPointerCapture(ev.pointerId);
-
-      const boundary = handle.dataset.boundary;
-      const [left, right] = boundary.split('|');
-
-      const barRect = mixBarEl.getBoundingClientRect();
-      const startX = ev.clientX;
-      const startLeft = currentWeights[left] ?? 0;
-      const startRight = currentWeights[right] ?? 0;
-      const pairSum = startLeft + startRight;
-
-      const onMove = (mv) => {
-        const dx = mv.clientX - startX;
-        const pctDelta = Math.round((dx / barRect.width) * 100);
-        const nextLeft = clamp(startLeft + pctDelta, 0, pairSum);
-        setPair(boundary, nextLeft);
-      };
-
-      const onUp = () => {
-        window.removeEventListener('pointermove', onMove);
-        window.removeEventListener('pointerup', onUp);
-      };
-
-      window.addEventListener('pointermove', onMove);
-      window.addEventListener('pointerup', onUp);
-    });
-  }
-
-  if (mixBarEl) {
-    [...mixBarEl.querySelectorAll('.mix-handle')].forEach(wireHandle);
-  }
-
-  // refresh labels -> refresh mix labels/summary
-  window.refreshMixUI = function() { renderMix(); };
-</script>
-
-<script>
-  // =========================
-  // STYLES LIST (aligned with class-detail)
-  // =========================
-
-  const styleListEl = document.getElementById('styleList');
-  const styleSearchEl = document.getElementById('styleSearch');
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const initialStyleId = urlParams.get('style_id') || null;
-
-  function renderStyleList(styles) {
-    if (!styleListEl) return;
-
-    styleListEl.innerHTML = (styles || []).map(style => `
-      <div class="style-item" data-style-id="${style.id}" data-style-name="${style.name}">
-        <div class="style-name">${style.name}</div>
-        <div class="style-meta">
-          <span id="style-track-count-${style.id}">— tracks</span>
-          <span class="badge b-warn" id="style-badge-${style.id}">—</span>
-        </div>
-      </div>
-    `).join('');
-
-    styleListEl.querySelectorAll('.style-item').forEach(item => {
-      item.addEventListener('click', () => {
-        selectStyle(item.dataset.styleId, item.dataset.styleName);
-      });
-    });
-  }
-
- async function loadStyleStats(styleId) {
+async function loadWeights(styleId) {
+  if (!styleId) return;
   try {
-    // FIXED: Removed unnecessary fetchStyleSongRows call
+    currentWeights = await fetchWeights(styleId);
+    renderMix();
+  } catch (e) {
+    console.error('Failed to load class weights:', e);
+    currentWeights = { ...DEFAULT_WEIGHTS };
+    renderMix();
+  }
+}
+
+function wireInput(el, code){
+  if (!el) return;
+  el.addEventListener('change', () => setSingle(code, Number(el.value)));
+  el.addEventListener('blur', () => setSingle(code, Number(el.value)));
+}
+wireInput(inA,'A'); wireInput(inB,'B'); wireInput(inC,'C'); wireInput(inR,'REST');
+
+if (resetMixBtn) {
+  resetMixBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    currentWeights = { ...DEFAULT_WEIGHTS };
+    renderMix();
+    scheduleSave();
+  });
+}
+
+function wireHandle(handle){
+  if (!handle) return;
+  handle.addEventListener('pointerdown', (ev) => {
+    if (!window.selectedStyleId) return;
+    ev.preventDefault();
+    handle.setPointerCapture(ev.pointerId);
+
+    const boundary = handle.dataset.boundary;
+    const [left, right] = boundary.split('|');
+
+    const barRect = mixBarEl.getBoundingClientRect();
+    const startX = ev.clientX;
+    const startLeft = currentWeights[left] ?? 0;
+    const startRight = currentWeights[right] ?? 0;
+    const pairSum = startLeft + startRight;
+
+    const onMove = (mv) => {
+      const dx = mv.clientX - startX;
+      const pctDelta = Math.round((dx / barRect.width) * 100);
+      const nextLeft = clamp(startLeft + pctDelta, 0, pairSum);
+      setPair(boundary, nextLeft);
+    };
+
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+    };
+
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  });
+}
+
+if (mixBarEl) {
+  [...mixBarEl.querySelectorAll('.mix-handle')].forEach(wireHandle);
+}
+
+window.refreshMixUI = function() { renderMix(); };
+
+// ═══════════════════════════════════════════════════════════
+// STYLES LIST
+// ═══════════════════════════════════════════════════════════
+const styleListEl = document.getElementById('styleList');
+const styleSearchEl = document.getElementById('styleSearch');
+
+const urlParams = new URLSearchParams(window.location.search);
+const initialStyleId = urlParams.get('style_id') || null;
+
+function renderStyleList(styles) {
+  if (!styleListEl) return;
+
+  styleListEl.innerHTML = (styles || []).map(style => `
+    <div class="style-item" data-style-id="${style.id}" data-style-name="${style.name}">
+      <div class="style-name">${style.name}</div>
+      <div class="style-meta">
+        <span id="style-track-count-${style.id}">— tracks</span>
+        <span class="badge b-warn" id="style-badge-${style.id}">—</span>
+      </div>
+    </div>
+  `).join('');
+
+  styleListEl.querySelectorAll('.style-item').forEach(item => {
+    item.addEventListener('click', () => {
+      selectStyle(item.dataset.styleId, item.dataset.styleName);
+    });
+  });
+}
+
+async function loadStyleStats(styleId) {
+  try {
     const { count: totalTracks, error: countErr } = await window.db
       .from('sim_style_songs')
       .select('library_song_id', { count: 'exact', head: true })
@@ -784,165 +567,162 @@ function scheduleSave() {
   }
 }
 
-  async function selectStyle(styleId, styleName) {
-    if (!styleId) return;
-
-    // active styling
-    document.querySelectorAll('.style-item').forEach(i => i.classList.remove('active'));
-    const active = document.querySelector(`.style-item[data-style-id="${styleId}"]`);
-    if (active) active.classList.add('active');
-
-    window.selectedStyleId = styleId;
-
-    // update header title (used by label storage key logic)
-    const h2 = document.querySelector('.category-header h2');
-    if (h2 && styleName) h2.textContent = `Playback Classes for "${styleName}"`;
-
-    // Labels storage key depends on the header text, so reload labels after changing it
-if (typeof window.reloadClassLabelsForCurrentStyle === 'function') {
-  window.reloadClassLabelsForCurrentStyle();
-}
-
-    // drive the rest of the page
-    await loadWeights(styleId);
-    await loadClassStats(styleId);
-  }
-
-  async function loadStyles() {
-    try {
-      if (!styleListEl) return;
-
-      styleListEl.innerHTML = `<div class="loading">Loading styles...</div>`;
-
-      const { data: styles, error } = await window.db
-        .from('sim_styles')
-        .select('id, name')
-        .order('name');
-
-      if (error) throw error;
-
-      const list = (styles || []).filter(s => s.name !== 'AA Remix');
-      renderStyleList(list);
-
-      // load badges (sequential to be gentle)
-      for (const s of list) await loadStyleStats(s.id);
-
-      // auto-select from URL if present
-      if (initialStyleId) {
-        const el = document.querySelector(`.style-item[data-style-id="${initialStyleId}"]`);
-        if (el) el.click();
-      }
-
-    } catch (err) {
-      console.error('Error loading styles:', err);
-      if (styleListEl) styleListEl.innerHTML = `<div class="error">Error loading styles: ${err.message}</div>`;
-    }
-  }
-
-  // search filter (client-side)
-  if (styleSearchEl) {
-    styleSearchEl.addEventListener('input', () => {
-      const q = styleSearchEl.value.trim().toLowerCase();
-      document.querySelectorAll('.style-item').forEach(el => {
-        const name = (el.dataset.styleName || '').toLowerCase();
-        el.style.display = (!q || name.includes(q)) ? '' : 'none';
-      });
-    });
-  }
-
-  loadStyles();
-</script>
-
-<script>
-  // ---------- Class stats + navigation ----------
-  async function loadClassStats(styleId) {
-    if (!styleId) return;
-
-    const rows = await fetchStyleSongRows(styleId);
-    const total = rows.length;
-
-    const assignmentMap = await fetchAssignments(styleId);
-    const assignedCount = Object.keys(assignmentMap).length;
-    const unassignedCount = Math.max(0, total - assignedCount);
-    const assignedPct = total ? ((assignedCount / total) * 100).toFixed(1) : '0.0';
-    const unassignedPct = total ? ((unassignedCount / total) * 100).toFixed(1) : '0.0';
-
-    // Update stats banner
-    const statVals = document.querySelectorAll('.stats-banner .stat-value');
-    const statSubs = document.querySelectorAll('.stats-banner .stat-sub');
-
-    if (statVals?.length >= 3) {
-      statVals[0].textContent = total;
-      statVals[1].textContent = assignedCount;
-      statVals[2].textContent = unassignedCount;
-    }
-    if (statSubs?.length >= 2) {
-      statSubs[0].textContent = `${assignedPct}%`;
-      statSubs[1].textContent = `${unassignedPct}%`;
-    }
-
-    // Count by class
-    const counts = { A: 0, B: 0, C: 0, REST: 0 };
-    Object.entries(assignmentMap).forEach(([songId, cls]) => {
-      const code = (cls === 'Rest') ? 'REST' : cls;
-      if (counts[code] !== undefined) counts[code] += 1;
-    });
-
-    // Update class rows
-    function setRow(codeKey, n) {
-      const row = document.querySelector(`tr[data-class="${codeKey}"]`);
-      if (!row) return;
-      const cells = row.querySelectorAll('td');
-      if (cells.length >= 3) {
-        cells[1].textContent = n;
-        const pct = total ? ((n / total) * 100).toFixed(1) : '0.0';
-        cells[2].textContent = `${pct}%`;
-      }
-    }
-    setRow('A', counts.A);
-    setRow('B', counts.B);
-    setRow('C', counts.C);
-    setRow('Rest', counts.REST);
-
-    // Update Uncategorized row
-    const uRow = document.querySelector('tr[data-class="Uncategorized"]');
-    if (uRow) {
-      const cells = uRow.querySelectorAll('td');
-      if (cells.length >= 3) {
-        cells[1].textContent = unassignedCount;
-        cells[2].textContent = `${unassignedPct}%`;
-      }
-    }
-  }
-
-  // Wire up navigation
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.view-class');
-    if (!btn) return;
-
-    const row = btn.closest('tr[data-class]');
-    if (!row) return;
-
-    if (!window.selectedStyleId) {
-      console.warn('Select a style first');
-      return;
-    }
-
-    const cls = row.dataset.class;
-    if (cls === 'Uncategorized') {
-      window.location.href = `uncategorized-detail.html?style_id=${encodeURIComponent(window.selectedStyleId)}`;
-    } else {
-      window.location.href = `class-detail.html?style_id=${encodeURIComponent(window.selectedStyleId)}&class=${encodeURIComponent(cls)}`;
+async function loadAllStyleStats(styles) {
+  const results = await Promise.allSettled(
+    styles.map(style => loadStyleStats(style.id))
+  );
+  
+  results.forEach((result, idx) => {
+    if (result.status === 'rejected') {
+      console.error(`Failed to load stats for ${styles[idx].name}:`, result.reason);
     }
   });
+}
 
-  document.getElementById('viewUncatBtn')?.addEventListener('click', () => {
+async function selectStyle(styleId, styleName) {
+  if (!styleId) return;
+
+  document.querySelectorAll('.style-item').forEach(i => i.classList.remove('active'));
+  const active = document.querySelector(`.style-item[data-style-id="${styleId}"]`);
+  if (active) active.classList.add('active');
+
+  window.selectedStyleId = styleId;
+
+  const h2 = document.querySelector('.category-header h2');
+  if (h2 && styleName) h2.textContent = `Playback Classes for "${styleName}"`;
+
+  if (typeof window.reloadClassLabelsForCurrentStyle === 'function') {
+    window.reloadClassLabelsForCurrentStyle();
+  }
+
+  await loadWeights(styleId);
+  await loadClassStats(styleId);
+}
+
+async function loadStyles() {
+  try {
+    if (!styleListEl) return;
+
+    styleListEl.innerHTML = `<div class="loading">Loading styles...</div>`;
+
+    const { data: styles, error } = await window.db
+      .from('sim_styles')
+      .select('id, name')
+      .order('name');
+
+    if (error) throw error;
+
+    const list = (styles || []).filter(s => !CONFIG.STYLES_TO_EXCLUDE.includes(s.name));
+    renderStyleList(list);
+
+    await loadAllStyleStats(list);
+
+    if (initialStyleId) {
+      const el = document.querySelector(`.style-item[data-style-id="${initialStyleId}"]`);
+      if (el) el.click();
+    }
+
+  } catch (err) {
+    console.error('Error loading styles:', err);
+    if (styleListEl) styleListEl.innerHTML = `<div class="error">Error loading styles: ${err.message}</div>`;
+  }
+}
+
+if (styleSearchEl) {
+  styleSearchEl.addEventListener('input', debounce(() => {
+    const q = styleSearchEl.value.trim().toLowerCase();
+    document.querySelectorAll('.style-item').forEach(el => {
+      const name = (el.dataset.styleName || '').toLowerCase();
+      el.style.display = (!q || name.includes(q)) ? '' : 'none';
+    });
+  }, CONFIG.SEARCH_DEBOUNCE));
+}
+
+// ═══════════════════════════════════════════════════════════
+// CLASS STATS + NAVIGATION
+// ═══════════════════════════════════════════════════════════
+async function loadClassStats(styleId) {
+  if (!styleId) return;
+
+  const rows = await DB_HELPERS.fetchStyleSongRows(styleId);
+  const total = rows.length;
+
+  const assignmentMap = await DB_HELPERS.fetchAssignments(styleId);
+  const assignedCount = Object.keys(assignmentMap).length;
+  const unassignedCount = Math.max(0, total - assignedCount);
+  const assignedPct = total ? ((assignedCount / total) * 100).toFixed(1) : '0.0';
+  const unassignedPct = total ? ((unassignedCount / total) * 100).toFixed(1) : '0.0';
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statAssigned').textContent = assignedCount;
+  document.getElementById('statAssignedPct').textContent = `${assignedPct}%`;
+  document.getElementById('statUnassigned').textContent = unassignedCount;
+  document.getElementById('statUnassignedPct').textContent = `${unassignedPct}%`;
+
+  const counts = { A: 0, B: 0, C: 0, REST: 0 };
+  Object.entries(assignmentMap).forEach(([songId, a]) => {
+    const cls = a.class_code;
+    const code = (cls === 'Rest') ? 'REST' : cls;
+    if (counts[code] !== undefined) counts[code] += 1;
+  });
+
+  function setRow(codeKey, n) {
+    const countEl = document.getElementById(`count-${codeKey}`);
+    const pctEl = document.getElementById(`pct-${codeKey}`);
+    if (countEl) countEl.textContent = n;
+    if (pctEl) {
+      const pct = total ? ((n / total) * 100).toFixed(1) : '0.0';
+      pctEl.textContent = `${pct}%`;
+    }
+  }
+  setRow('A', counts.A);
+  setRow('B', counts.B);
+  setRow('C', counts.C);
+  setRow('REST', counts.REST);
+
+  const uncatEl = document.getElementById('count-Uncategorized');
+  const uncatPctEl = document.getElementById('pct-Uncategorized');
+  if (uncatEl) uncatEl.textContent = unassignedCount;
+  if (uncatPctEl) uncatPctEl.textContent = `${unassignedPct}%`;
+}
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.view-class');
+  if (!btn) return;
+
+  const row = btn.closest('tr[data-class]');
+  if (!row) return;
+
+  if (!window.selectedStyleId) {
+    console.warn('Select a style first');
+    return;
+  }
+
+  const cls = row.dataset.class;
+  if (cls === 'Uncategorized') {
+    window.location.href = `uncategorized-detail.html?style_id=${encodeURIComponent(window.selectedStyleId)}`;
+  } else {
+    window.location.href = `class-detail.html?style_id=${encodeURIComponent(window.selectedStyleId)}&class=${encodeURIComponent(cls)}`;
+  }
+});
+
+document.getElementById('viewUncatBtn')?.addEventListener('click', () => {
   const styleId = window.selectedStyleId;
   window.location.href = styleId
     ? `uncategorized-detail.html?style_id=${encodeURIComponent(styleId)}`
     : 'uncategorized-detail.html';
 });
 
+// ═══════════════════════════════════════════════════════════
+// INIT - This must come after ClassLabels definition
+// ═══════════════════════════════════════════════════════════
+// Expose for legacy compatibility
+window.reloadClassLabelsForCurrentStyle = function () {
+  ClassLabels.apply(ClassLabels.load());
+};
+
+ClassLabels.init();
+loadStyles();
 </script>
 </body>
 </html>
