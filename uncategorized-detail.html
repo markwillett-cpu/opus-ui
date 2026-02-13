@@ -3,12 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Opus – Assign Uncategorized – Supabase Connected</title>
+  <title>Opus – Assign Uncategorized</title>
   <style>
-    /* =====================================================
-       SHARED — verbatim from category-manager-main-view.
-       Nothing changed here.
-       ===================================================== */
     *{margin:0;padding:0;box-sizing:border-box}
     :root{
       --primary:#2c3e50;--secondary:#34495e;--accent:#3498db;
@@ -31,72 +27,17 @@
     .toolbar-btn.primary:hover{background:#2980b9}
     .toolbar-sep{width:1px;height:22px;background:#5a7288;margin:0 4px}
     .container{max-width:1800px;margin:0 auto;padding:18px}
-    .main-layout{
-  display:grid;
-  grid-template-columns: 320px 1fr;
-  gap:18px;
-  height:calc(100vh - 160px);
-}
+    .main-layout{display:grid;grid-template-columns: 320px 1fr;gap:18px;height:calc(100vh - 160px)}
     .panel{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;min-height:0}
     .panel-header{background:var(--secondary);color:#fff;padding:14px 16px;font-weight:900;font-size:14px}
-    .panel-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.pane-toggle{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.35);
-  color:#fff;
-  padding:6px 10px;
-  border-radius:6px;
-  font-size:12px;
-  font-weight:800;
-  cursor:pointer;
-}
-.styles-wrap{
-  display:grid;
-  grid-template-columns: 40px 1fr; /* rail + panel */
-  min-height:0;
-}
-
-.styles-rail{
-  background: var(--secondary);
-  border-radius:8px;
-  display:flex;
-  justify-content:center;
-  padding-top:10px;
-  align-self: stretch;
-}
-
-.styles-rail .pane-toggle{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.35);
-  color:#fff;
-  width:30px;
-  height:30px;
-  border-radius:6px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-/* When collapsed, left column becomes just the rail */
-.styles-collapsed .main-layout{
-  grid-template-columns: 40px 1fr;
-}
-
-/* Hide only the big styles panel, keep the rail visible */
-.styles-collapsed .styles-panel{
-  display:none;
-}
-
-/* When panel is hidden, the wrapper becomes just the rail */
-.styles-collapsed .styles-wrap{
-  grid-template-columns: 40px;
-}
-
+    .panel-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .pane-toggle{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer}
+    .styles-wrap{display:grid;grid-template-columns: 40px 1fr;min-height:0}
+    .styles-rail{background: var(--secondary);border-radius:8px;display:flex;justify-content:center;padding-top:10px;align-self: stretch}
+    .styles-rail .pane-toggle{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;width:30px;height:30px;border-radius:6px;font-weight:900;cursor:pointer}
+    .styles-collapsed .main-layout{grid-template-columns: 40px 1fr}
+    .styles-collapsed .styles-panel{display:none}
+    .styles-collapsed .styles-wrap{grid-template-columns: 40px}
     .panel-subheader{padding:12px 14px;border-bottom:1px solid var(--light)}
     .search-input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-size:13px}
     .style-list{overflow:auto;padding:10px}
@@ -128,33 +69,20 @@
     .footer-note{color:#7f8c8d;font-size:12px;font-weight:800}
     .footer-actions{display:flex;gap:10px}
     @media (max-width:1100px){.main-layout{grid-template-columns:1fr;height:auto}.stats-banner{grid-template-columns:repeat(2,1fr)}}
-
-    /* =====================================================
-       THIS PAGE ONLY
-       ===================================================== */
     .back-link{display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:var(--accent);font-size:13px;font-weight:900;cursor:pointer;padding:0;margin-bottom:2px}
     .back-link:hover{text-decoration:underline}
-
-    /* layout inside .content */
     .detail-body{display:grid;grid-template-columns:1fr 260px;gap:18px;height:100%}
-
-    /* ---------- track list ---------- */
     .track-panel{display:flex;flex-direction:column;min-height:0;border:1px solid var(--light);border-radius:8px;overflow:hidden}
-
-    /* sticky selection bar — shown only when ≥1 track checked */
     .sel-bar{background:var(--secondary);color:#fff;padding:10px 12px;display:none;align-items:center;gap:10px;font-size:13px;font-weight:800}
     .sel-bar.visible{display:flex}
     .sel-bar .sel-n{font-size:16px;font-weight:1000}
     .sel-bar .sel-lbl{opacity:.75}
     .sel-bar .sel-clear{margin-left:auto;background:none;border:none;color:#bdc3c7;font-size:12px;font-weight:900;cursor:pointer}
     .sel-bar .sel-clear:hover{color:#fff}
-
     .track-toolbar{background:var(--light);border-bottom:1px solid var(--border);padding:10px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .track-toolbar input{flex:1;min-width:180px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-size:13px}
     .track-toolbar select{padding:6px 10px;border:1px solid var(--border);border-radius:4px;background:#fff;font-size:12px}
     .track-scroll{overflow:auto;flex:1;min-height:0}
-
-    /* table — head & cell tokens match .category-table on main view */
     .track-table{width:100%;min-width:1200px;border-collapse:collapse;font-size:12px}
     .track-table thead{background:var(--secondary);color:#fff;position:sticky;top:0;z-index:1}
     .track-table th,.track-table td{padding:10px 12px;font-size:13px;text-align:left;border-bottom:1px solid var(--light);white-space:nowrap}
@@ -162,69 +90,46 @@
     .track-table tbody tr:hover{background:#f8f9fa;cursor:pointer}
     .track-table tbody tr.checked{background:#eef6fc}
     .track-table .art{width:36px;height:36px;border-radius:3px;object-fit:cover}
-
-    /* ---------- sidebar ---------- */
     .sidebar{display:flex;flex-direction:column;gap:12px;overflow:auto}
     .card{background:var(--light);border-radius:6px;padding:14px}
     .card h3{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.4px;color:#7f8c8d;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-
-    /* assign buttons */
-    .assign-btn{
-      display:flex;align-items:center;gap:10px;width:100%;
-      padding:12px 12px;border-radius:6px;border:2px solid transparent;
-      background:#fff;cursor:pointer;font-size:14px;font-weight:900;
-      color:var(--primary);transition:.15s;text-align:left
-    }
+    .assign-btn{display:flex;align-items:center;gap:10px;width:100%;padding:12px 12px;border-radius:6px;border:2px solid transparent;background:#fff;cursor:pointer;font-size:14px;font-weight:900;color:var(--primary);transition:.15s;text-align:left}
     .assign-btn .ab-dot{width:14px;height:14px;border-radius:3px;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.15)}
     .assign-btn .ab-label{flex:1}
     .assign-btn .ab-count{font-size:12px;font-weight:900;opacity:.45;font-variant-numeric:tabular-nums}
-    /* colour variants */
     .assign-btn.cls-primary{color:var(--power)}
     .assign-btn.cls-secondary{color:var(--core)}
     .assign-btn.cls-tertiary{color:var(--library)}
     .assign-btn.cls-rest{color:var(--rest)}
-    /* hover — border picks up the text colour */
     .assign-btn:hover{border-color:currentColor}
-    /* disabled state — grayed, no pointer */
     .assign-btn:disabled{opacity:.3;cursor:not-allowed;border-color:transparent !important}
-
     .assign-hint{font-size:12px;color:#7f8c8d;font-weight:800;margin-top:10px;text-align:center}
-
-    /* playback-status note card */
     .kv{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;font-weight:900}
     .kv:last-child{border-bottom:none}
-
-    /* Loading and error states */
     .loading{text-align:center;padding:40px;color:#7f8c8d}
     .error{background:#f8d7da;border-left:4px solid var(--danger);padding:12px 14px;border-radius:4px;color:#721c24;font-size:13px;margin:14px}
     .success-toast{position:fixed;top:20px;right:20px;background:var(--success);color:#fff;padding:12px 18px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:1000;animation:slideIn .3s}
     @keyframes slideIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
-
 </style>
 </head>
 <body>
 
-<!-- ── HEADER ── -->
 <div class="opus-header">
   <div class="opus-title">Custom Channels Opus</div>
   <nav class="opus-nav">
     <a class="nav-item" href="http://opus.customchannels.net">Tracks</a>
     <a class="nav-item active" href="#">Playback Classes</a>
- 
   </nav>
 </div>
 
-<!-- ── TOOLBAR ── -->
 <div class="opus-toolbar">
   <button class="toolbar-btn primary" id="backToManagerBtn" type="button">Manage Playback Classes</button>
-
 </div>
 
 <div class="container">
   <div class="main-layout">
 
-    <!-- ── LEFT: style list ── -->
-     <div class="styles-wrap">
+    <div class="styles-wrap">
   <div class="styles-rail">
     <button class="pane-toggle" id="toggleStyles" type="button" title="Show/Hide Styles">☰</button>
   </div>
@@ -232,7 +137,6 @@
     <div class="panel styles-panel">
       <div class="panel-header">
   <span>Styles (Playlists)</span>
-  
 </div>
       <div class="panel-subheader"><input class="search-input" id="styleSearch" placeholder="Search styles..." /></div>
       <div class="style-list" id="styleList">
@@ -240,9 +144,8 @@
       </div>
     </div>
 
-    </div> <!-- end .styles-wrap -->
+    </div>
 
-    <!-- ── RIGHT: detail view ── -->
     <div class="panel">
       <div class="category-header">
         <div>
@@ -267,14 +170,12 @@
 
         <div class="detail-body">
           <div class="track-panel">
-            <!-- selection bar -->
             <div class="sel-bar" id="selBar">
               <span class="sel-n" id="selN">0</span>
               <span class="sel-lbl">selected</span>
               <button class="sel-clear" id="selClear">Clear selection</button>
             </div>
 
-            <!-- toolbar with search/filter -->
             <div class="track-toolbar">
               <input type="text" id="trackSearch" placeholder="Search tracks..." />
               <select id="sortBy">
@@ -288,7 +189,6 @@
              </select>
             </div>
 
-            <!-- scrollable table -->
             <div class="track-scroll">
               <table class="track-table">
                 <thead>
@@ -302,7 +202,6 @@
                     <th style="width:80px">Year</th>
                     <th style="width:80px">Time</th>
                     <th style="width:140px">Move Date</th>
-
                   </tr>
                 </thead>
                 <tbody id="trackBody">
@@ -314,7 +213,6 @@
 
           <div class="sidebar">
           
-            <!-- assign to class card -->
             <div class="card">
               <h3>Assign to Class</h3>
               <button class="assign-btn cls-primary" data-class="A">
@@ -339,9 +237,6 @@
               </button>
               <div class="assign-hint" id="assignHint">Select tracks to assign</div>
             </div>
-
-            <!-- info card -->
-            
           </div>
         </div>
       </div>
@@ -354,7 +249,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<script src="db-helpers.js"></script>
+<script src="class-labels.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════
 // SUPABASE CONFIGURATION
@@ -364,82 +260,12 @@ const SUPABASE_KEY = 'sb_publishable_Lvv-SG7eonq1OO3T5Y7ofg__aF4eDRQ';
 window.db = window.db || window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ═══════════════════════════════════════════════════════════
-// DB HELPERS (shared shape with class-detail)
-// ═══════════════════════════════════════════════════════════
-async function fetchStyleSongRows(styleId) {
-  const { data, error } = await window.db
-    .from('sim_style_songs')
-    .select('library_song_id, sim_duration_seconds, library_songs(id, artist, title, album, peak_year, run_time_seconds, styles)')
-    .eq('style_id', styleId);
-
-  if (error) throw error;
-
-  return (data || [])
-    .filter(r => r && r.library_song_id)
-    .map(r => {
-      const s = r.library_songs || null;
-      return {
-        song_id: r.library_song_id,
-        sim_duration_seconds: r.sim_duration_seconds ?? null,
-        song: s ? {
-          id: s.id ?? null,
-          artist: s.artist ?? '',
-          title: s.title ?? '',
-          album: s.album ?? '',
-          year: s.peak_year ?? '',
-          run_time_seconds: s.run_time_seconds ?? 0,
-          styles: s.styles ?? ''
-        } : null
-      };
-    });
-}
-
-async function fetchAssignments(styleId) {
-  const { data, error } = await window.db
-    .from('sim_style_song_classes')
-    .select('library_song_id, class_code, moved_at')
-    .eq('style_id', styleId);
-
-  if (error) throw error;
-
-const m = {};
-(data || []).forEach(r => {
-  if (!r.library_song_id) return;
-  m[r.library_song_id] = {
-    class_code: r.class_code,
-    moved_at: r.moved_at
-  };
-});
-return m;
-
-}
-
-async function upsertAssignments(rows) {
-  const payload = (rows || [])
-    .filter(r => r && r.song_id && r.style_id)
-    .map(r => ({
-      style_id: r.style_id,
-      class_code: r.class_code,
-      library_song_id: r.song_id
-    }));
-
-  return await window.db
-    .from('sim_style_song_classes')
-    .upsert(payload, { onConflict: 'library_song_id,style_id' });
-}
-
-// ═══════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════
 let currentStyleId = null;
 let currentStyleName = '';
 let allTracks = [];
-let classCounts = { A: 0, B: 0, C: 0, REST: 0 }; // FIXED: was Rest, now REST
-
-// Styles to hide from UI lists
-const EXCLUDED_STYLE_NAMES = new Set(['AA Remix']);
-
-
+let classCounts = { A: 0, B: 0, C: 0, REST: 0 };
 
 // ═══════════════════════════════════════════════════════════
 // DOM REFS
@@ -462,67 +288,47 @@ const trackSearch = document.getElementById('trackSearch');
 const sortBy = document.getElementById('sortBy');
 
 // ═══════════════════════════════════════════════════════════
-// LOAD STYLES
+// UTILITY FUNCTIONS
 // ═══════════════════════════════════════════════════════════
-async function loadStyles() {
-  try {
-    const { data: styles, error } = await window.db
-      .from('sim_styles')
-      .select('id, name')
-      .order('name');
+function formatStyles(stylesStr){
+  const toks=(stylesStr||'').split('|').map(s=>s.trim()).filter(Boolean);
+  const visible=toks.slice(0,2).join(' | ');
+  return toks.length>2 ? (visible+' …') : visible;
+}
 
-    if (error) throw error;
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'success-toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), CONFIG.TOAST_DURATION);
+}
 
-    if (!styles || styles.length === 0) {
-      styleList.innerHTML = '<div class="info">No styles found</div>';
-      return;
-    }
-
-    // Filter out "AA Remix" 
-const filteredStyles = styles.filter(
-  style => !EXCLUDED_STYLE_NAMES.has(style.name)
-);
-    styleList.innerHTML = filteredStyles.map(style => `
-      <div class="style-item" data-style-id="${style.id}" data-style-name="${style.name}">
-        <div class="style-name">${style.name}</div>
-        <div class="style-meta">
-          <span id="style-track-count-${style.id}">— tracks</span>
-          <span class="badge b-warn" id="style-badge-${style.id}">—</span>
-        </div>
-      </div>
-    `).join('');
-
-    // Attach click handlers
-    document.querySelectorAll('.style-item').forEach(item => {
-      item.addEventListener('click', () => {
-        document.querySelectorAll('.style-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        const styleId = item.dataset.styleId;
-        const styleName = item.dataset.styleName;
-        loadTracksForStyle(styleId, styleName);
-      });
-    });
-
-    // Load counts for each style
-    for (const style of filteredStyles) {
-      await loadStyleStats(style.id);
-    }
-  } catch (err) {
-    console.error('Error loading styles:', err);
-    styleList.innerHTML = '<div class="error">Error loading styles: ' + err.message + '</div>';
-  }
+function updateURL(styleId) {
+  const url = new URL(window.location);
+  url.searchParams.set('style_id', styleId);
+  window.history.pushState({}, '', url);
 }
 
 // ═══════════════════════════════════════════════════════════
-// LOAD STYLE STATS
+// LOAD STYLES
 // ═══════════════════════════════════════════════════════════
 async function loadStyleStats(styleId) {
   try {
-    const rows = await fetchStyleSongRows(styleId);
-    const totalTracks = rows.length;
+    const { count: totalTracks, error: countErr } = await window.db
+      .from('sim_style_songs')
+      .select('library_song_id', { count: 'exact', head: true })
+      .eq('style_id', styleId);
 
-    const assignmentMap = await fetchAssignments(styleId);
-    const assignedCount = Object.keys(assignmentMap).length;
+    if (countErr) throw countErr;
+
+    const { count: assignedCount, error: assignedErr } = await window.db
+      .from('sim_style_song_classes')
+      .select('library_song_id', { count: 'exact', head: true })
+      .eq('style_id', styleId);
+
+    if (assignedErr) throw assignedErr;
+
     const pct = totalTracks > 0 ? Math.round((assignedCount / totalTracks) * 100) : 0;
 
     const countEl = document.getElementById(`style-track-count-${styleId}`);
@@ -538,66 +344,112 @@ async function loadStyleStats(styleId) {
   }
 }
 
+async function loadAllStyleStats(styles) {
+  const results = await Promise.allSettled(
+    styles.map(style => loadStyleStats(style.id))
+  );
+  
+  results.forEach((result, idx) => {
+    if (result.status === 'rejected') {
+      console.error(`Failed to load stats for ${styles[idx].name}:`, result.reason);
+    }
+  });
+}
+
+async function loadStyles() {
+  try {
+    const { data: styles, error } = await window.db
+      .from('sim_styles')
+      .select('id, name')
+      .order('name');
+
+    if (error) throw error;
+
+    if (!styles || styles.length === 0) {
+      styleList.innerHTML = '<div class="info">No styles found</div>';
+      return;
+    }
+
+    const filteredStyles = styles.filter(style => !CONFIG.STYLES_TO_EXCLUDE.includes(style.name));
+    
+    styleList.innerHTML = filteredStyles.map(style => `
+      <div class="style-item" data-style-id="${style.id}" data-style-name="${style.name}">
+        <div class="style-name">${style.name}</div>
+        <div class="style-meta">
+          <span id="style-track-count-${style.id}">— tracks</span>
+          <span class="badge b-warn" id="style-badge-${style.id}">—</span>
+        </div>
+      </div>
+    `).join('');
+
+    document.querySelectorAll('.style-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.style-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        const styleId = item.dataset.styleId;
+        const styleName = item.dataset.styleName;
+        loadTracksForStyle(styleId, styleName);
+      });
+    });
+
+    await loadAllStyleStats(filteredStyles);
+  } catch (err) {
+    console.error('Error loading styles:', err);
+    styleList.innerHTML = '<div class="error">Error loading styles: ' + err.message + '</div>';
+  }
+}
+
 // ═══════════════════════════════════════════════════════════
 // LOAD TRACKS FOR STYLE
 // ═══════════════════════════════════════════════════════════
 async function loadTracksForStyle(styleId, styleNameText) {
   currentStyleId = styleId;
   currentStyleName = styleNameText;
-  styleName.textContent = styleNameText;
+  window.selectedStyleId = styleId;
+  window.currentStyleName = styleNameText;
   
-
-
+  styleName.textContent = styleNameText;
   tbody.innerHTML = '<tr><td colspan="9" class="loading">Loading tracks...</td></tr>';
 
+  updateURL(styleId);
+
   try {
-    const rows = await fetchStyleSongRows(styleId);
-    const assignmentMap = await fetchAssignments(styleId);
+    const rows = await DB_HELPERS.fetchStyleSongRows(styleId);
+    const assignmentMap = await DB_HELPERS.fetchAssignments(styleId);
 
     if (!rows || rows.length === 0) {
       tbody.innerHTML = `<tr><td colspan="9" class="loading">No rows returned from sim_style_songs for this style_id.</td></tr>`;
       return;
     }
 
+    const limitedRows = rows.slice(0, CONFIG.MAX_TRACKS_DISPLAY);
+    const showingCapped = rows.length > CONFIG.MAX_TRACKS_DISPLAY;
 
-    // Cap at 3000 tracks
-    const limitedRows = rows.slice(0, 3000);
-    const showingCapped = rows.length > 3000;
+    allTracks = limitedRows
+      .filter(r => r.song_id && r.song)
+      .map(r => {
+        const s = r.song;
+        const a = assignmentMap[r.song_id] || null;
+        const normClass = DB_HELPERS.normalizeClassCode(a?.class_code);
+        const movedAt = a?.moved_at || null;
 
- allTracks = limitedRows
-  .filter(r => r.song_id && r.song)
-  .map(r => {
-    const s = r.song;
+        return {
+          id: r.song_id,
+          title: s.title || 'Unknown Title',
+          artist: s.artist || 'Unknown Artist',
+          album: s.album || '',
+          year: (s.year ?? ''),
+          duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
+          styles: s.styles || '',
+          class_code: normClass,
+          moved_at: movedAt
+        };
+      });
 
-    const a = assignmentMap[r.song_id] || null;
-
-const rawClass = a?.class_code || null;
-const normClass = rawClass
-  ? (String(rawClass).toLowerCase() === 'rest' ? 'REST' : String(rawClass).toUpperCase())
-  : null;
-
-const movedAt = a?.moved_at || null;
-
-    return {
-      id: r.song_id,
-      title: s.title || 'Unknown Title',
-      artist: s.artist || 'Unknown Artist',
-      album: s.album || '',
-      year: (s.year ?? ''),
-      duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
-      styles: s.styles || '',
-      class_code: normClass,
-      moved_at: movedAt
-
-    };
-  });
-
-
-    // Show warning if tracks were capped
     if (showingCapped) {
       const infoDiv = document.querySelector('.info');
       if (infoDiv) {
-        infoDiv.innerHTML = `⚠️ This style has ${rows.length.toLocaleString()} tracks. Showing first 3,000 for performance. 
+        infoDiv.innerHTML = `⚠️ This style has ${rows.length.toLocaleString()} tracks. Showing first ${CONFIG.MAX_TRACKS_DISPLAY.toLocaleString()} for performance. 
         Select tracks below and use the sidebar to assign them to a playback class.`;
         infoDiv.style.background = '#fff3cd';
         infoDiv.style.borderLeftColor = '#f39c12';
@@ -636,36 +488,26 @@ function updateStats() {
   statAs.textContent = assignedCount;
   statAsPct.textContent = pct + '%';
 
-  // Count by class
-classCounts = { A: 0, B: 0, C: 0, REST: 0 };
+  classCounts = { A: 0, B: 0, C: 0, REST: 0 };
 
-allTracks.forEach(t => {
-  if (!t.class_code) return;
-  const code = String(t.class_code).toUpperCase();
-  if (classCounts[code] !== undefined) classCounts[code] += 1;
-});
+  allTracks.forEach(t => {
+    if (!t.class_code) return;
+    const code = String(t.class_code).toUpperCase();
+    if (classCounts[code] !== undefined) classCounts[code] += 1;
+  });
 
-// Update button counts
-assignBtns.forEach(btn => {
-  const code = String(btn.dataset.class || '').toUpperCase();
-  btn.querySelector('.ab-count').textContent = classCounts[code] || 0;
-});
+  assignBtns.forEach(btn => {
+    const code = String(btn.dataset.class || '').toUpperCase();
+    btn.querySelector('.ab-count').textContent = classCounts[code] || 0;
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
 // RENDER TABLE
 // ═══════════════════════════════════════════════════════════
-function formatStyles(stylesStr){
-  const toks=(stylesStr||'').split('|').map(s=>s.trim()).filter(Boolean);
-  const visible=toks.slice(0,2).join(' | ');
-  return toks.length>2 ? (visible+' …') : visible;
-}
-
 function renderTable() {
-  // Filter to only unassigned tracks
   let visible = allTracks.filter(t => !t.class_code);
 
-  // Apply search filter
   const searchTerm = trackSearch.value.toLowerCase();
   if (searchTerm) {
     visible = visible.filter(t =>
@@ -675,49 +517,34 @@ function renderTable() {
     );
   }
 
-  // Apply sort
   const sortField = sortBy.value;
-
-const normStr = (v) => (v ?? '').toString().toLowerCase().trim();
-
-const normYear = (v) => {
-  const n = parseInt(v, 10);
-  return Number.isFinite(n) ? n : null;
-};
-
-const normDate = (v) => {
-  const t = v ? Date.parse(v) : NaN;
-  return Number.isFinite(t) ? t : null;
-};
-
+  const normStr = (v) => (v ?? '').toString().toLowerCase().trim();
+  const normYear = (v) => {
+    const n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : null;
+  };
+  const normDate = (v) => {
+    const t = v ? Date.parse(v) : NaN;
+    return Number.isFinite(t) ? t : null;
+  };
 
   visible.sort((a, b) => {
-    // Year sorting (Peak Year)
     if (sortField === 'year_desc' || sortField === 'year_asc') {
       const ay = normYear(a.year);
       const by = normYear(b.year);
-
-      // blanks last
       if (ay === null && by === null) return 0;
       if (ay === null) return 1;
       if (by === null) return -1;
-
       return sortField === 'year_desc' ? (by - ay) : (ay - by);
     }
-// Move date sorting
-if (sortField === 'moved_desc' || sortField === 'moved_asc') {
-  const ad = normDate(a.moved_at);
-  const bd = normDate(b.moved_at);
-
-  // blanks last
-  if (ad === null && bd === null) return 0;
-  if (ad === null) return 1;
-  if (bd === null) return -1;
-
-  return sortField === 'moved_desc' ? (bd - ad) : (ad - bd);
-}
-
-    // Default alpha sorts
+    if (sortField === 'moved_desc' || sortField === 'moved_asc') {
+      const ad = normDate(a.moved_at);
+      const bd = normDate(b.moved_at);
+      if (ad === null && bd === null) return 0;
+      if (ad === null) return 1;
+      if (bd === null) return -1;
+      return sortField === 'moved_desc' ? (bd - ad) : (ad - bd);
+    }
     const aVal = normStr(a[sortField]);
     const bVal = normStr(b[sortField]);
     return aVal.localeCompare(bVal);
@@ -734,10 +561,7 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
     const mins = Math.floor(t.duration / 60);
     const secs = (t.duration % 60).toString().padStart(2, '0');
     const timeStr = `${mins}:${secs}`;
-    const movedStr = t.moved_at
-  ? new Date(t.moved_at).toLocaleString()
-  : '';
-
+    const movedStr = t.moved_at ? new Date(t.moved_at).toLocaleString() : '';
     
     return `
       <tr data-track-id="${t.id}">
@@ -750,12 +574,10 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
         <td>${t.year}</td>
        <td class="num">${timeStr}</td>
 <td style="color:#7f8c8d">${movedStr}</td>
-
       </tr>
     `;
   }).join('');
 
-  // Attach row listeners
   tbody.querySelectorAll('.rowCheck').forEach(cb => {
     cb.addEventListener('change', () => {
       cb.closest('tr').classList.toggle('checked', cb.checked);
@@ -821,48 +643,42 @@ assignBtns.forEach(btn => {
 
     const classCode = btn.dataset.class;
     const checked = [...tbody.querySelectorAll('tr.checked')];
-const trackIds = checked
-  .map(tr => tr.getAttribute('data-track-id'))
-  .filter(Boolean);
+    const trackIds = checked
+      .map(tr => tr.getAttribute('data-track-id'))
+      .filter(Boolean);
 
     if (trackIds.length === 0) return;
 
-    // Show loading state
+    const originalText = btn.textContent;
     btn.disabled = true;
+    btn.textContent = 'Saving...';
     btn.style.opacity = '0.5';
 
     try {
-      // Insert assignments
-    const assignments = trackIds.map(songId => ({
-  song_id: songId,
-  style_id: currentStyleId,
-  class_code: classCode
-}));
+      const assignments = trackIds.map(songId => ({
+        song_id: songId,
+        style_id: currentStyleId,
+        class_code: classCode
+      }));
 
-const { error } = await upsertAssignments(assignments);
-if (error) throw error;
+      const { error } = await DB_HELPERS.upsertAssignments(assignments);
+      if (error) throw error;
 
-      // Update local state
-     const nowIso = new Date().toISOString();
+      const nowIso = new Date().toISOString();
+      trackIds.forEach(trackId => {
+        const track = allTracks.find(t => t.id === trackId);
+        if (!track) return;
+        track.class_code = classCode;
+        track.moved_at = nowIso;
+      });
 
-trackIds.forEach(trackId => {
-  const track = allTracks.find(t => t.id === trackId);
-  if (!track) return;
-  track.class_code = classCode;
-  track.moved_at = nowIso;
-});
-
-
-      // Show success toast
       showToast(`✓ Assigned ${trackIds.length} track${trackIds.length > 1 ? 's' : ''} to class ${classCode}`);
 
-      // Update stats and re-render
       updateStats();
       renderTable();
       selectAll.checked = false;
       updateUI();
 
-      // Reload style stats in sidebar
       await loadStyleStats(currentStyleId);
 
     } catch (err) {
@@ -870,6 +686,7 @@ trackIds.forEach(trackId => {
       alert('Error assigning tracks: ' + err.message);
     } finally {
       btn.disabled = false;
+      btn.textContent = originalText;
       btn.style.opacity = '1';
     }
   });
@@ -878,103 +695,61 @@ trackIds.forEach(trackId => {
 // ═══════════════════════════════════════════════════════════
 // SEARCH & SORT
 // ═══════════════════════════════════════════════════════════
-trackSearch.addEventListener('input', renderTable);
+trackSearch.addEventListener('input', debounce(renderTable, CONFIG.SEARCH_DEBOUNCE));
 sortBy.addEventListener('change', renderTable);
 
-  // style search filter (client-side)
-  const styleSearch = document.getElementById('styleSearch');
-  if (styleSearch) {
-    styleSearch.addEventListener('input', () => {
-      const q = styleSearch.value.trim().toLowerCase();
-      document.querySelectorAll('.style-item').forEach(el => {
-        const name = (el.dataset.styleName || '').toLowerCase();
-        el.style.display = (!q || name.includes(q)) ? '' : 'none';
-      });
+const styleSearch = document.getElementById('styleSearch');
+if (styleSearch) {
+  styleSearch.addEventListener('input', debounce(() => {
+    const q = styleSearch.value.trim().toLowerCase();
+    document.querySelectorAll('.style-item').forEach(el => {
+      const name = (el.dataset.styleName || '').toLowerCase();
+      el.style.display = (!q || name.includes(q)) ? '' : 'none';
     });
+  }, CONFIG.SEARCH_DEBOUNCE));
+}
+
+// ═══════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'a' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    selectAll.checked = true;
+    selectAll.dispatchEvent(new Event('change'));
   }
-
-
-// ═══════════════════════════════════════════════════════════
-// SHOW TOAST
-// ═══════════════════════════════════════════════════════════
-function showToast(message) {
-  const toast = document.createElement('div');
-  toast.className = 'success-toast';
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
-}
-
-// ═══════════════════════════════════════════════════════════
-// LABEL MANAGEMENT
-// ═══════════════════════════════════════════════════════════
-(function(){
- function getStyleKey(){
-  return currentStyleId || 'default-style';
-}
-
-
- function storageKey(){
-  return 'opus.classLabels.' + getStyleKey();
-}
-
- function loadLabels(){
-  const empty = {A:'',B:'',C:'',REST:''};
-
-  try{
-    // preferred: style_id key
-    const rawById = localStorage.getItem(storageKey());
-    if (rawById) return JSON.parse(rawById);
-
-    // fallback: older style-name key (migrate forward once)
-    const legacyKey = 'opus.classLabels.' + (currentStyleName || 'default-style');
-    const rawByName = localStorage.getItem(legacyKey);
-    if (rawByName) {
-      localStorage.setItem(storageKey(), rawByName); // migrate to id-based key
-      return JSON.parse(rawByName);
-    }
-
-    return empty;
-  } catch(e){
-    return empty;
+  
+  if (e.key === 'Escape') {
+    selClear?.click();
   }
-}
+});
 
+// ═══════════════════════════════════════════════════════════
+// BACK BUTTON
+// ═══════════════════════════════════════════════════════════
+document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
+  const base = 'index.html';
+  const url = currentStyleId
+    ? `${base}?style_id=${encodeURIComponent(currentStyleId)}`
+    : base;
 
-function applyLabels(labels){
-  window.currentClassLabels = labels;
+  window.location.href = url;
+});
 
-  document.querySelectorAll('.assign-btn .ab-label').forEach(el=>{
-    const btn = el.closest('.assign-btn');
-    if (!btn) return;
-
-    const cls = btn.dataset.class;
-    if (!cls) return;
-
-    const code = cls.toUpperCase(); // A / B / C / REST
-    const displayCode = code === 'REST' ? 'Rest' : cls;
-    const label = labels[code];
-
-    el.textContent = label
-      ? `${displayCode} — ${label}`
-      : displayCode;
-  });
-}
-
-
-  // Re-apply labels whenever style changes
-  window.addEventListener('styleChanged', () => {
-    applyLabels(loadLabels());
-  });
-
-  applyLabels(loadLabels());
-})();
+// Styles pane collapse toggle
+document.getElementById('toggleStyles')?.addEventListener('click', () => {
+  document.body.classList.toggle('styles-collapsed');
+  const btn = document.getElementById('toggleStyles');
+  if (!btn) return;
+  btn.textContent = document.body.classList.contains('styles-collapsed') ? '▶' : '☰';
+});
 
 // ═══════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════
+ClassLabels.init();
 loadStyles();
-// Auto-load style from URL param if present
+
 const urlParams = new URLSearchParams(window.location.search);
 const initialStyleId = urlParams.get('style_id');
 if (initialStyleId) {
@@ -990,29 +765,5 @@ if (initialStyleId) {
   setTimeout(() => clearInterval(iv), 5000);
 }
 </script>
-
-<script>
-  document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
-    const base = '/opus-ui/index.html'; // change if your manager file name differs
-    const url = currentStyleId
-      ? `${base}?style_id=${encodeURIComponent(currentStyleId)}`
-      : base;
-
-    window.location.href = url;
-  });
-</script>
-
-<script>
-  // Styles pane collapse toggle
-  document.getElementById('toggleStyles')?.addEventListener('click', () => {
-  document.body.classList.toggle('styles-collapsed');
-
-  const btn = document.getElementById('toggleStyles');
-  if (!btn) return;
-
-  btn.textContent = document.body.classList.contains('styles-collapsed')
-    ? '▶'
-    : '☰';
-});
-</script>
 </body>
+</html>
