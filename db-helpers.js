@@ -2,7 +2,8 @@
 // SHARED DATABASE HELPERS
 // ═══════════════════════════════════════════════════════════
 
-const CONFIG = {
+// Use config from config.js if available, otherwise use defaults
+const CONFIG = window.OPUS_CONFIG || {
   MAX_TRACKS_DISPLAY: 3000,
   TOAST_DURATION: 2500,
   AUTO_SAVE_DELAY: 400,
