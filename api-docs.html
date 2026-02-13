@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Opus Playback Manager — API Documentation</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#0f1733;
+      --text:#e7ebff;
+      --muted:#b9c2ff;
+      --line:rgba(255,255,255,.12);
+      --code:#0b0f1f;
+      --link:#88a7ff;
+      --chip:rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:linear-gradient(180deg,var(--bg),#070a14);
+      color:var(--text);
+    }
+    a{color:var(--link); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap:16px;
+      max-width:1200px;
+      margin:0 auto;
+      padding:20px;
+    }
+    header{
+      grid-column:1 / -1;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      padding:8px 4px 0;
+    }
+    header h1{
+      margin:0;
+      font-size:20px;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    header .meta{
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    nav{
+      position:sticky;
+      top:16px;
+      align-self:start;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:12px;
+      padding:12px;
+    }
+    nav .nav-title{
+      font-size:12px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin:0 0 10px;
+    }
+    nav ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px}
+    nav li a{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid transparent;
+      background:transparent;
+      font-size:14px;
+      color:var(--text);
+    }
+    nav li a:hover{
+      background:var(--chip);
+      border-color:var(--line);
+      text-decoration:none;
+    }
+    main{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:12px;
+      padding:18px;
+      min-height:60vh;
+    }
+    h2{margin:22px 0 10px; font-size:18px}
+    h3{margin:18px 0 8px; font-size:15px}
+    p, li{color:var(--text); line-height:1.55}
+    .muted{color:var(--muted)}
+    hr{border:0; border-top:1px solid var(--line); margin:18px 0}
+    pre{
+      background:var(--code);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+      overflow:auto;
+      margin:10px 0 14px;
+    }
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:13px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin:10px 0 16px;
+      overflow:hidden;
+      border-radius:12px;
+      border:1px solid var(--line);
+    }
+    th, td{
+      text-align:left;
+      padding:10px 12px;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+    }
+    th{background:rgba(255,255,255,.05); font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em}
+    tr:last-child td{border-bottom:0}
+    .chip{
+      display:inline-block;
+      padding:2px 8px;
+      border-radius:999px;
+      background:var(--chip);
+      border:1px solid var(--line);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .toplink{
+      float:right;
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+    @media (max-width: 900px){
+      .wrap{grid-template-columns:1fr}
+      nav{position:relative; top:auto}
+      header{align-items:flex-start; flex-direction:column}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header id="top">
+      <div>
+        <h1>Opus Playback Manager — API Documentation</h1>
+        <div class="muted">Supabase-backed playback/classification system</div>
+      </div>
+      <div class="meta">
+        <span class="chip">API Version: 2.0.0</span>
+        <span class="chip">Last Updated: Feb 13, 2026</span>
+      </div>
+    </header>
+
+    <nav aria-label="Table of contents">
+      <div class="nav-title">Contents</div>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#database-schema">Database Schema</a></li>
+        <li><a href="#data-models">Data Models</a></li>
+        <li><a href="#api-operations">API Operations</a></li>
+        <li><a href="#javascript-api">JavaScript API</a></li>
+        <li><a href="#integration-examples">Integration Examples</a></li>
+        <li><a href="#best-practices">Best Practices</a></li>
+        <li><a href="#support">Support</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="overview">
+        <a class="toplink" href="#top">Back to top</a>
+        <h2>Overview</h2>
+        <p>
+          The Opus Playback Manager uses Supabase (PostgreSQL) as its backend database. All data access happens
+          through the Supabase JavaScript client using REST API calls.
+        </p>
+
+        <h3>Technology Stack</h3>
+        <ul>
+          <li><b>Database</b>: PostgreSQL (via Supabase)</li>
+          <li><b>Client</b>: Supabase JavaScript SDK v2</li>
+          <li><b>Authentication</b>: Supabase anon key (public access)</li>
+          <li><b>Real-time</b>: Optional Supabase subscriptions</li>
+        </ul>
+
+        <h3>Base Configuration</h3>
+        <pre><code>const SUPABASE_URL = 'https://your-project.supabase.co';
+const SUPABASE_KEY = 'your-anon-public-key';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);</code></pre>
+      </section>
+
+      <hr />
+
+      <section id="database-schema">
+        <a class="toplink" href="#top">Back to top</a>
+        <h2>Database Schema</h2>
+
+        <h3>Entity Relationship Diagram</h3>
+        <pre><code>┌─────────────────┐
+│   sim_styles    │
+│─────────────────│
+│ id (PK)         │
+│ name            │
+└────────┬────────┘
+         │ 1:N
+┌────────▼────────────────┐      ┌──────────────────┐
+│  sim_style_songs        │  N:1 │  library_songs   │
+│─────────────────────────│◄─────│──────────────────│
+│ style_id (FK)           │      │ id (PK)          │
+│ library_song_id (FK, PK)│      │ title            │
+│ sim_duration_seconds    │      │ artist           │
+└────────┬────────────────┘      │ album            │
+         │                        │ peak_year        │
+         │ 1:1                    │ run_time_seconds │
+┌────────▼────────────────────┐   │ styles           │
+│ sim_style_song_classes     │    └──────────────────┘
+│────────────────────────────│
+│ style_id (FK, PK)          │
+│ library_song_id (FK, PK)   │
+│ class_code                 │
+│ moved_at                   │
+└────────┬───────────────────┘
+         │ N:1
+┌────────▼────────────────┐
+│ sim_style_class_weights │
+│─────────────────────────│
+│ style_id (FK, PK)       │
+│ class_code (PK)         │
+│ weight_pct              │
+└─────────────────────────┘</code></pre>
+
+        <h3><code>sim_styles</code></h3>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Constraints</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id</td><td>UUID</td><td>PRIMARY KEY</td><td>Unique style identifier</td></tr>
+            <tr><td>name</td><td>TEXT</td><td>NOT NULL</td><td>Display name of the style</td></tr>
+          </tbody>
+        </table>
+        <pre><code>{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "Adult Rock Arrival"
+}</code></pre>
+
+        <h3><code>library_songs</code></h3>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Constraints</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id</td><td>UUID</td><td>PRIMARY KEY</td><td>Unique song identifier</td></tr>
+            <tr><td>title</td><td>TEXT</td><td></td><td>Song title</td></tr>
+            <tr><td>artist</td><td>TEXT</td><td></td><td>Artist name</td></tr>
+            <tr><td>album</td><td>TEXT</td><td></td><td>Album name</td></tr>
+            <tr><td>peak_year</td><td>INTEGER</td><td></td><td>Year of peak popularity</td></tr>
+            <tr><td>run_time_seconds</td><td>INTEGER</td><td></td><td>Total duration in seconds</td></tr>
+            <tr><td>styles</td><td>TEXT</td><td></td><td>Pipe-delimited style tags</td></tr>
+          </tbody>
+        </table>
+        <pre><code>{
+  "id": "660e8400-e29b-41d4-a716-446655440000",
+  "title": "Bohemian Rhapsody",
+  "artist": "Queen",
+  "album": "A Night at the Opera",
+  "peak_year": 1975,
+  "run_time_seconds": 354,
+  "styles": "Classic Rock | Album Rock | Art Rock"
+}</code></pre>
+
+        <h3><code>sim_style_songs</code></h3>
+        <p class="muted">Composite PK: (style_id, library_song_id)</p>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Constraints</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>style_id</td><td>UUID</td><td>FK → sim_styles(id)</td><td>Style reference</td></tr>
+            <tr><td>library_song_id</td><td>UUID</td><td>FK → library_songs(id)</td><td>Song reference</td></tr>
+            <tr><td>sim_duration_seconds</td><td>INTEGER</td><td></td><td>Override duration for this style</td></tr>
+          </tbody>
+        </table>
+
+        <h3><code>sim_style_song_classes</code></h3>
+        <p class="muted">Composite PK: (style_id, library_song_id)</p>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Constraints</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>style_id</td><td>UUID</td><td>FK → sim_styles(id)</td><td>Style reference</td></tr>
+            <tr><td>library_song_id</td><td>UUID</td><td>FK → library_songs(id)</td><td>Song reference</td></tr>
+            <tr><td>class_code</td><td>TEXT</td><td>NOT NULL</td><td>A, B, C, REST</td></tr>
+            <tr><td>moved_at</td><td>TIMESTAMPTZ</td><td>DEFAULT NOW()</td><td>When assignment was made</td></tr>
+          </tbody>
+        </table>
+        <p class="muted">
+          Valid class codes: A, B, C, REST. Stored uppercase. No assignment = Uncategorized.
+        </p>
+
+        <h3><code>sim_style_class_weights</code></h3>
+        <p class="muted">Composite PK: (style_id, class_code). Weights should sum to 100 per style.</p>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Constraints</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>style_id</td><td>UUID</td><td>FK → sim_styles(id)</td><td>Style reference</td></tr>
+            <tr><td>class_code</td><td>TEXT</td><td>NOT NULL</td><td>A, B, C, REST</td></tr>
+            <tr><td>weight_pct</td><td>INTEGER</td><td>0–100</td><td>Target percentage</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr />
+
+      <section id="data-models">
+        <a class="toplink" href="#top">Back to top</a>
+        <h2>Data Models</h2>
+        <pre><code>interface Style {
+  id: string;
+  name: string;
+}
+
+interface Song {
+  id: string;
+  title: string;
+  artist: string;
+  album: string;
+  peak_year: number;
+  run_time_seconds: number;
+  styles: string;
+}
+
+interface SongClassAssignment {
+  style_id: string;
+  library_song_id: string;
+  class_code: 'A' | 'B' | 'C' | 'REST';
+  moved_at: string;
+}
+
+interface ClassWeight {
+  style_id: string;
+  class_code: 'A' | 'B' | 'C' | 'REST';
+  weight_pct: number;
+}</code></pre>
+      </section>
+
+      <hr />
+
+      <section id="api-operations">
+        <a class="toplink" href="#top">Back to top</a>
+        <h2>API Operations</h2>
+
+        <h3>Get All Styles</h3>
+        <pre><code>const { data: styles, error } = await supabase
+  .from('sim_styles')
+  .select('id, name')
+  .order('name');</code></pre>
+
+        <h3>Get Songs for a Style</h3>
+        <pre><code>const { data, error } = await supabase
+  .from('sim_style_songs')
+  .select(`
+    library_song_id,
+    sim_duration_seconds,
+    library_songs(id, artist, title, album, peak_year, run_time_seconds, styles)
+  `)
+  .eq('style_id', styleId);</code></pre>
+
+        <h3>Get Class Assignments</h3>
+        <pre><code>const { data, error } = await supabase
+  .from('sim_style_song_classes')
+  .select('library_song_id, class_code, moved_at')
+  .eq('style_id', styleId);</code></pre>
+
+        <h3>Assign Tracks to Class</h3>
+        <pre><code>const assignments = [
+  { style_id: styleId, library_song_id: songId, class_code: "A" }
+];
+
+const { error } = await supabase
+  .from('sim_style_song_classes')
+  .upsert(assignments, { onConflict: 'library_song_id,style_id' });</code></pre>
+
+        <h3>Update Class Weights</h3>
+        <pre><code>const weights = [
+  { style_id: styleId, class_code: 'A', weight_pct: 35 },
+  { style_id: styleId, class_code: 'B', weight_pct: 35 },
+  { style_id: styleId, class_code: 'C', weight_pct: 30 },
+  { style_id: styleId, class_code: 'REST', weight_pct: 0 }
+];
+
+const { error } = await supabase
+  .from('sim_style_class_weights')
+  .upsert(weights, { onConflict: 'style_id,class_code' });</code></pre>
+      </section>
+
+      <hr />
+
+      <section id="javascript-api">
+        <a class="toplink" href="#top">Back to top</a>
+        <h2>JavaScript API</h2>
+        <h3>DB_HELPERS Functions</h3>
+        <ul>
+          <li><code>fetchStyleSongRows(styleId)</code> — Fetches all songs for a style with joined metadata.</li>
+          <li><code>fetchAssignments(styleId)</code> — Returns assignment map: <code>{ songId: { class_code, moved_at } }</code></li>
+          <li><code>upsertAssignments(rows)</code> — Bulk assign tracks to classes.</li>
+          <li><code>deleteAssignments(styleId, songIds)</code> — Remove assignments for specific songs.</li>
+          <li><code>normalizeClassCode(classCode)</code> — Ensures consistent class code format (REST uppercase).</li>
+        </ul>
+      </section>
+
+      <hr />
+
+      <section id="integration-examples">
+        <a class="toplink" href="#top">Back to top</a>
+        <h2>Integration Examples</h2>
+
+        <h3>Get Unassigned Tracks</h3>
+        <pre><code>async function getUnassignedTracks(styleId) {
+  const allSongs = await DB_HELPERS.fetchStyleSongRows(styleId);
+  const assignments = await DB_HELPERS.fetchAssignments(styleId);
+
+  return allSongs.filter(row => !assignments[row.song_id]);
+}</code></pre>
+
+        <h3>Calculate Distribution</h3>
+        <pre><code>async function getClassDistribution(styleId) {
+  const allSongs = await DB_HELPERS.fetchStyleSongRows(styleId);
+  const assignments = await DB_HELPERS.fetchAssignments(styleId);
+
+  const counts = { A: 0, B: 0, C: 0, REST: 0, Uncategorized: 0 };
+
+  allSongs.forEach(row => {
+    const assignment = assignments[row.song_id];
+    if (!assignment) counts.Uncategorized++;
+    else counts[DB_HELPERS.normalizeClassCode(assignment.class_code)]++;
+  });
+
+  return counts;
+}</code></pre>
+      </section>
+
+      <hr />
+
+      <section id="best-practices">
+        <a class="toplink" href="#top">Back to top</a>
+        <h2>Best Practices</h2>
+        <ol>
+          <li>Always normalize class codes using <code>DB_HELPERS.normalizeClassCode()</code></li>
+          <li>Batch operations instead of sequential updates</li>
+          <li>Use count queries instead of fetching all data</li>
+          <li>Handle NULL values gracefully with fallbacks</li>
+          <li>Validate weights sum to 100% before saving</li>
+          <li>Enable Row Level Security (RLS) in production</li>
+        </ol>
+      </section>
+
+      <hr />
+
+      <section id="support">
+        <a class="toplink" href="#top">Back to top</a>
+        <h2>Support</h2>
+        <p>For API questions or integration issues, open an issue on GitHub.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
