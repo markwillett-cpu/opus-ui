@@ -27,66 +27,14 @@
     .main-layout{display:grid;grid-template-columns:320px 1fr;gap:18px;height:calc(100vh - 160px)}
     .panel{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;min-height:0}
     .panel-header{background:var(--secondary);color:#fff;padding:14px 16px;font-weight:900;font-size:14px}
-    /* ── Collapsible styles pane (matches Uncategorized page) ── */
-.panel-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.pane-toggle{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.35);
-  color:#fff;
-  padding:6px 10px;
-  border-radius:6px;
-  font-size:12px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.styles-wrap{
-  display:grid;
-  grid-template-columns: 40px 1fr; /* rail + panel */
-  min-height:0;
-}
-
-.styles-rail{
-  background: var(--secondary);
-  border-radius:8px;
-  display:flex;
-  justify-content:center;
-  padding-top:10px;
-  align-self: stretch;
-}
-
-.styles-rail .pane-toggle{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.35);
-  color:#fff;
-  width:30px;
-  height:30px;
-  border-radius:6px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-/* When collapsed, left column becomes just the rail */
-.styles-collapsed .main-layout{
-  grid-template-columns: 40px 1fr;
-}
-
-/* Hide only the big styles panel, keep the rail visible */
-.styles-collapsed .styles-panel{
-  display:none;
-}
-
-/* When panel is hidden, the wrapper becomes just the rail */
-.styles-collapsed .styles-wrap{
-  grid-template-columns: 40px;
-}
-
+    .panel-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .pane-toggle{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer}
+    .styles-wrap{display:grid;grid-template-columns: 40px 1fr;min-height:0}
+    .styles-rail{background: var(--secondary);border-radius:8px;display:flex;justify-content:center;padding-top:10px;align-self: stretch}
+    .styles-rail .pane-toggle{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;width:30px;height:30px;border-radius:6px;font-weight:900;cursor:pointer}
+    .styles-collapsed .main-layout{grid-template-columns: 40px 1fr}
+    .styles-collapsed .styles-panel{display:none}
+    .styles-collapsed .styles-wrap{grid-template-columns: 40px}
     .panel-subheader{padding:12px 14px;border-bottom:1px solid var(--light)}
     .search-input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-size:13px}
     .style-list{overflow:auto;padding:10px}
@@ -107,7 +55,6 @@
     .footer{border-top:1px solid var(--border);background:var(--light);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px}
     .footer-note{color:#7f8c8d;font-size:12px;font-weight:800}
     @media (max-width:1100px){.main-layout{grid-template-columns:1fr;height:auto}}
-
     .back-link{display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:var(--accent);font-size:13px;font-weight:900;cursor:pointer;padding:0;margin-bottom:2px}
     .back-link:hover{text-decoration:underline}
     .detail-body{display:grid;grid-template-columns:1fr 260px;gap:18px;height:100%}
@@ -148,14 +95,7 @@
     .success-toast{position:fixed;top:20px;right:20px;background:var(--success);color:#fff;padding:12px 18px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:1000;animation:slideIn .3s}
     @keyframes slideIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
     .class-dot{display:inline-block;width:16px;height:16px;border-radius:4px;margin-right:8px;vertical-align:middle}
-    .stats-banner{
-      background:#2f3d4a;
-      color:#fff;
-      padding:14px 22px;
-      display:grid !important;
-      grid-template-columns:repeat(4,1fr) !important;
-      gap:14px !important;
-    }
+    .stats-banner{background:#2f3d4a;color:#fff;padding:14px 22px;display:grid !important;grid-template-columns:repeat(4,1fr) !important;gap:14px !important}
     .stat-box{text-align:center}
     .stat-label{font-size:11px;letter-spacing:.4px;opacity:.85;text-transform:uppercase}
     .stat-value{font-size:22px;font-weight:1000;margin-top:4px}
@@ -292,6 +232,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="db-helpers.js"></script>
+<script src="class-labels.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════
 // SUPABASE CONFIGURATION
@@ -306,79 +248,6 @@ window.db = window.db || window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY
 const urlParams = new URLSearchParams(window.location.search);
 const currentClassCode = urlParams.get('class') || 'A';
 const initialStyleId = urlParams.get('style_id') || null;
-
-// ═══════════════════════════════════════════════════════════
-// DB HELPERS (shared shape with uncategorized page)
-// ═══════════════════════════════════════════════════════════
-async function fetchStyleSongRows(styleId) {
-  const { data, error } = await window.db
-    .from('sim_style_songs')
-    .select('library_song_id, sim_duration_seconds, library_songs(id, artist, title, album, peak_year, run_time_seconds, styles)')
-    .eq('style_id', styleId);
-
-  if (error) throw error;
-
-  return (data || [])
-    .filter(r => r && r.library_song_id)
-    .map(r => {
-      const s = r.library_songs || null;
-      return {
-        song_id: r.library_song_id,
-        sim_duration_seconds: r.sim_duration_seconds ?? null,
-        song: s ? {
-          id: s.id ?? null,
-          artist: s.artist ?? '',
-          title: s.title ?? '',
-          album: s.album ?? '',
-          year: s.peak_year ?? '',
-          run_time_seconds: s.run_time_seconds ?? 0,
-          styles: s.styles ?? ''
-        } : null
-      };
-    });
-}
-
-async function fetchAssignments(styleId) {
-  const { data, error } = await window.db
-    .from('sim_style_song_classes')
-    .select('library_song_id, class_code, moved_at')
-    .eq('style_id', styleId);
-
-  if (error) throw error;
-
- const m = {};
-(data || []).forEach(r => {
-  if (!r.library_song_id) return;
-  m[r.library_song_id] = {
-    class_code: r.class_code,
-    moved_at: r.moved_at
-  };
-});
-return m;
-
-}
-
-async function upsertAssignments(rows) {
-  const payload = (rows || [])
-    .filter(r => r && r.song_id && r.style_id)
-    .map(r => ({
-      style_id: r.style_id,
-      class_code: r.class_code,
-      library_song_id: r.song_id
-    }));
-
-  return await window.db
-    .from('sim_style_song_classes')
-    .upsert(payload, { onConflict: 'library_song_id,style_id' });
-}
-
-async function deleteAssignments(styleId, songIds) {
-  return await window.db
-    .from('sim_style_song_classes')
-    .delete()
-    .eq('style_id', styleId)
-    .in('library_song_id', songIds);
-}
 
 // ═══════════════════════════════════════════════════════════
 // CLASS UI CONFIG
@@ -403,9 +272,6 @@ let currentStyleId = null;
 let currentStyleName = '';
 let allTracks = [];
 let classCounts = { A: 0, B: 0, C: 0, REST: 0, Uncategorized: 0 };
-
-// Styles to hide from UI lists
-const EXCLUDED_STYLE_NAMES = new Set(['AA Remix']);
 
 // ═══════════════════════════════════════════════════════════
 // DOM REFS
@@ -442,7 +308,14 @@ function showToast(message) {
   toast.className = 'success-toast';
   toast.textContent = message;
   document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2500);
+  setTimeout(() => toast.remove(), CONFIG.TOAST_DURATION);
+}
+
+function updateURL(styleId) {
+  const url = new URL(window.location);
+  url.searchParams.set('style_id', styleId);
+  url.searchParams.set('class', currentClassCode);
+  window.history.pushState({}, '', url);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -450,7 +323,6 @@ function showToast(message) {
 // ═══════════════════════════════════════════════════════════
 async function loadStyleStats(styleId) {
   try {
-    // total tracks (COUNT only)
     const { count: totalTracks, error: countErr } = await window.db
       .from('sim_style_songs')
       .select('*', { count: 'exact', head: true })
@@ -458,7 +330,6 @@ async function loadStyleStats(styleId) {
 
     if (countErr) throw countErr;
 
-    // assigned tracks (COUNT only)
     const { count: assignedCount, error: assignedErr } = await window.db
       .from('sim_style_song_classes')
       .select('*', { count: 'exact', head: true })
@@ -485,7 +356,6 @@ async function loadStyleStats(styleId) {
   }
 }
 
-
 function renderStyleList(styles) {
   styleList.innerHTML = styles.map(style => `
     <div class="style-item" data-style-id="${style.id}" data-style-name="${style.name}">
@@ -506,6 +376,18 @@ function renderStyleList(styles) {
   });
 }
 
+async function loadAllStyleStats(styles) {
+  const results = await Promise.allSettled(
+    styles.map(style => loadStyleStats(style.id))
+  );
+  
+  results.forEach((result, idx) => {
+    if (result.status === 'rejected') {
+      console.error(`Failed to load stats for ${styles[idx].name}:`, result.reason);
+    }
+  });
+}
+
 async function loadStyles() {
   try {
     const { data: styles, error } = await window.db
@@ -515,19 +397,15 @@ async function loadStyles() {
 
     if (error) throw error;
 
-    const list = (styles || []).filter(style => !EXCLUDED_STYLE_NAMES.has(style.name));
+    const list = (styles || []).filter(style => !CONFIG.STYLES_TO_EXCLUDE.includes(style.name));
     renderStyleList(list);
 
-    // Auto-select immediately (before slow stats)
     if (initialStyleId) {
       const el = document.querySelector(`.style-item[data-style-id="${initialStyleId}"]`);
       if (el) el.click();
     }
 
-    // Load stats without blocking selection
-    list.forEach(style => {
-      loadStyleStats(style.id).catch(err => console.error('loadStyleStats failed', err));
-    });
+    await loadAllStyleStats(list);
 
   } catch (err) {
     console.error('Error loading styles:', err);
@@ -541,36 +419,33 @@ async function loadStyles() {
 async function loadTracksForStyle(styleId, styleNameText) {
   currentStyleId = styleId;
   currentStyleName = styleNameText || '';
+  window.selectedStyleId = styleId;
+  window.currentStyleName = styleNameText;
+  
   styleNameEl.textContent = styleNameText || 'Selected style';
   tbody.innerHTML = '<tr><td colspan="9" class="loading">Loading tracks...</td></tr>';
 
+  updateURL(styleId);
+
   try {
-    const rows = await fetchStyleSongRows(styleId);
-    const assignmentMap = await fetchAssignments(styleId);
+    const rows = await DB_HELPERS.fetchStyleSongRows(styleId);
+    const assignmentMap = await DB_HELPERS.fetchAssignments(styleId);
 
     if (!rows || rows.length === 0) {
       tbody.innerHTML = `<tr><td colspan="9" class="loading">No rows returned from sim_style_songs for this style_id.</td></tr>`;
       return;
     }
 
-    // Cap at 3000 tracks
-    const limitedRows = rows.slice(0, 3000);
-    const showingCapped = rows.length > 3000;
+    const limitedRows = rows.slice(0, CONFIG.MAX_TRACKS_DISPLAY);
+    const showingCapped = rows.length > CONFIG.MAX_TRACKS_DISPLAY;
 
     allTracks = limitedRows
       .filter(r => r.song_id && r.song)
       .map(r => {
         const s = r.song;
-
         const a = assignmentMap[r.song_id] || null;
-
-const rawClass = a?.class_code || null;
-const normClass = rawClass
-  ? (String(rawClass).toLowerCase() === 'rest' ? 'REST' : String(rawClass).toUpperCase())
-  : null;
-
-const movedAt = a?.moved_at || null;
-
+        const normClass = DB_HELPERS.normalizeClassCode(a?.class_code);
+        const movedAt = a?.moved_at || null;
 
         return {
           id: r.song_id,
@@ -581,15 +456,14 @@ const movedAt = a?.moved_at || null;
           duration: (r.sim_duration_seconds ?? s.run_time_seconds ?? 0),
           styles: s.styles || '',
           class_code: normClass,
-moved_at: movedAt
+          moved_at: movedAt
         };
       });
 
-    // Show warning if tracks were capped
     if (showingCapped) {
       const infoDiv = document.querySelector('.info');
       if (infoDiv) {
-        infoDiv.innerHTML = `⚠️ This style has ${rows.length.toLocaleString()} tracks. Showing first 3,000 for performance. 
+        infoDiv.innerHTML = `⚠️ This style has ${rows.length.toLocaleString()} tracks. Showing first ${CONFIG.MAX_TRACKS_DISPLAY.toLocaleString()} for performance. 
         Select tracks and use the right sidebar to move them to another class or back to Uncategorized.`;
         infoDiv.style.background = '#fff3cd';
         infoDiv.style.borderLeftColor = '#f39c12';
@@ -627,7 +501,6 @@ function updateStats() {
   statPct.textContent = pct + '%';
   statUnassigned.textContent = unassignedCount;
 
-  // Count by class
   classCounts = { A: 0, B: 0, C: 0, REST: 0, Uncategorized: 0 };
 
   allTracks.forEach(t => {
@@ -639,13 +512,11 @@ function updateStats() {
     }
   });
 
-  // Update button counts
   moveBtns.forEach(btn => {
     const cls = btn.dataset.class;
     const code = cls === 'Uncategorized' ? 'Uncategorized' : String(cls).toUpperCase();
     btn.querySelector('.ab-count').textContent = classCounts[code] || 0;
     
-    // Disable button for current class
     if (code === currentClassCode.toUpperCase()) {
       btn.disabled = true;
     }
@@ -668,46 +539,33 @@ function renderTable() {
   }
 
   const sortField = sortBy.value;
-const normStr = (v) => (v ?? '').toString().toLowerCase().trim();
-
-const normYear = (v) => {
-  const n = parseInt(v, 10);
-  return Number.isFinite(n) ? n : null;
-};
-
-const normDate = (v) => {
-  const t = v ? Date.parse(v) : NaN;
-  return Number.isFinite(t) ? t : null;
-};
-
+  const normStr = (v) => (v ?? '').toString().toLowerCase().trim();
+  const normYear = (v) => {
+    const n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : null;
+  };
+  const normDate = (v) => {
+    const t = v ? Date.parse(v) : NaN;
+    return Number.isFinite(t) ? t : null;
+  };
 
   visible.sort((a, b) => {
-    // Year sorting (Peak Year)
     if (sortField === 'year_desc' || sortField === 'year_asc') {
       const ay = normYear(a.year);
       const by = normYear(b.year);
-
-      // blanks last
       if (ay === null && by === null) return 0;
       if (ay === null) return 1;
       if (by === null) return -1;
-
       return sortField === 'year_desc' ? (by - ay) : (ay - by);
     }
-// Move date sorting
-if (sortField === 'moved_desc' || sortField === 'moved_asc') {
-  const ad = normDate(a.moved_at);
-  const bd = normDate(b.moved_at);
-
-  // blanks last
-  if (ad === null && bd === null) return 0;
-  if (ad === null) return 1;
-  if (bd === null) return -1;
-
-  return sortField === 'moved_desc' ? (bd - ad) : (ad - bd);
-}
-
-    // Default alpha sorts
+    if (sortField === 'moved_desc' || sortField === 'moved_asc') {
+      const ad = normDate(a.moved_at);
+      const bd = normDate(b.moved_at);
+      if (ad === null && bd === null) return 0;
+      if (ad === null) return 1;
+      if (bd === null) return -1;
+      return sortField === 'moved_desc' ? (bd - ad) : (ad - bd);
+    }
     const aVal = normStr(a[sortField]);
     const bVal = normStr(b[sortField]);
     return aVal.localeCompare(bVal);
@@ -724,9 +582,7 @@ if (sortField === 'moved_desc' || sortField === 'moved_asc') {
     const mins = Math.floor((t.duration || 0) / 60);
     const secs = ((t.duration || 0) % 60).toString().padStart(2, '0');
     const timeStr = `${mins}:${secs}`;
-    const movedStr = t.moved_at
-      ? new Date(t.moved_at).toLocaleString()
-      : '';
+    const movedStr = t.moved_at ? new Date(t.moved_at).toLocaleString() : '';
     
     return `
       <tr data-track-id="${t.id}">
@@ -816,18 +672,22 @@ moveBtns.forEach(btn => {
     
     if (songIds.length === 0) return;
 
-    // Show loading state
+    const originalText = btn.textContent;
     btn.disabled = true;
+    btn.textContent = 'Saving...';
     btn.style.opacity = '0.5';
 
     try {
       if (targetClass === 'Uncategorized') {
-        const { error } = await deleteAssignments(currentStyleId, songIds);
+        const { error } = await DB_HELPERS.deleteAssignments(currentStyleId, songIds);
         if (error) throw error;
         
         songIds.forEach(id => {
           const t = allTracks.find(x => x.id === id);
-          if (t) t.class_code = null;
+          if (t) {
+            t.class_code = null;
+            t.moved_at = null;
+          }
         });
         
         showToast(`✓ Moved ${songIds.length} track${songIds.length > 1 ? 's' : ''} to Uncategorized`);
@@ -838,19 +698,16 @@ moveBtns.forEach(btn => {
           class_code: targetClass
         }));
         
-        const { error } = await upsertAssignments(assignments);
+        const { error } = await DB_HELPERS.upsertAssignments(assignments);
         if (error) throw error;
         
         const nowIso = new Date().toISOString();
-
-songIds.forEach(id => {
-  const t = allTracks.find(x => x.id === id);
-  if (!t) return;
-  t.class_code = targetClass;
-  t.moved_at = nowIso;
-});
-
-        
+        songIds.forEach(id => {
+          const t = allTracks.find(x => x.id === id);
+          if (!t) return;
+          t.class_code = targetClass;
+          t.moved_at = nowIso;
+        });
         
         showToast(`✓ Moved ${songIds.length} track${songIds.length > 1 ? 's' : ''} to ${targetClass}`);
       }
@@ -865,6 +722,7 @@ songIds.forEach(id => {
       alert('Error moving tracks: ' + err.message);
     } finally {
       btn.disabled = false;
+      btn.textContent = originalText;
       btn.style.opacity = '1';
     }
   });
@@ -873,110 +731,56 @@ songIds.forEach(id => {
 // ═══════════════════════════════════════════════════════════
 // SEARCH & SORT
 // ═══════════════════════════════════════════════════════════
-trackSearch.addEventListener('input', renderTable);
+trackSearch.addEventListener('input', debounce(renderTable, CONFIG.SEARCH_DEBOUNCE));
 sortBy.addEventListener('change', renderTable);
 
-// Style search filter (client-side)
-styleSearch.addEventListener('input', () => {
+styleSearch.addEventListener('input', debounce(() => {
   const q = styleSearch.value.trim().toLowerCase();
   document.querySelectorAll('.style-item').forEach(el => {
     const name = (el.dataset.styleName || '').toLowerCase();
     el.style.display = !q || name.includes(q) ? '' : 'none';
   });
+}, CONFIG.SEARCH_DEBOUNCE));
+
+// ═══════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'a' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    selectAll.checked = true;
+    selectAll.dispatchEvent(new Event('change'));
+  }
+  
+  if (e.key === 'Escape') {
+    selClear?.click();
+  }
 });
-
-// ═══════════════════════════════════════════════════════════
-// LABEL MANAGEMENT
-// ═══════════════════════════════════════════════════════════
-(function(){
-  function getStyleKey(){
-    return currentStyleId || 'default-style';
-  }
-
-  function storageKey(){
-    return 'opus.classLabels.' + getStyleKey();
-  }
-
-  function loadLabels(){
-    const empty = {A:'', B:'', C:'', REST:''};
-
-    try {
-      // preferred: style_id key
-      const rawById = localStorage.getItem(storageKey());
-      if (rawById) return JSON.parse(rawById);
-
-      // fallback: older style-name key (migrate forward once)
-      const legacyKey = 'opus.classLabels.' + (currentStyleName || 'default-style');
-      const rawByName = localStorage.getItem(legacyKey);
-      if (rawByName) {
-        localStorage.setItem(storageKey(), rawByName); // migrate to id-based key
-        return JSON.parse(rawByName);
-      }
-
-      return empty;
-    } catch(e) {
-      return empty;
-    }
-  }
-
-  function applyLabels(labels){
-    window.currentClassLabels = labels;
-
-    document.querySelectorAll('.assign-btn .ab-label').forEach(el => {
-      const btn = el.closest('.assign-btn');
-      if (!btn) return;
-
-      const cls = btn.dataset.class;
-      if (!cls) return;
-
-      // Skip Uncategorized button
-      if (cls === 'Uncategorized') return;
-
-      const code = cls.toUpperCase(); // A / B / C / REST
-      const displayCode = code === 'REST' ? 'Rest' : cls;
-      const label = labels[code];
-
-      el.textContent = label
-        ? `${displayCode} — ${label}`
-        : displayCode;
-    });
-  }
-
-  // Re-apply labels whenever style changes
-  window.addEventListener('styleChanged', () => {
-    applyLabels(loadLabels());
-  });
-
-  applyLabels(loadLabels());
-})();
 
 // ═══════════════════════════════════════════════════════════
 // BACK BUTTON
 // ═══════════════════════════════════════════════════════════
 document.getElementById('backToManagerBtn')?.addEventListener('click', () => {
-  const base = '/opus-ui/index.html';
+  const base = 'index.html';
   const url = currentStyleId
     ? `${base}?style_id=${encodeURIComponent(currentStyleId)}`
     : base;
 
   window.location.href = url;
 });
+
 // Styles pane collapse toggle
 document.getElementById('toggleStyles')?.addEventListener('click', () => {
   document.body.classList.toggle('styles-collapsed');
-
   const btn = document.getElementById('toggleStyles');
   if (!btn) return;
-
-  btn.textContent = document.body.classList.contains('styles-collapsed')
-    ? '▶'
-    : '☰';
+  btn.textContent = document.body.classList.contains('styles-collapsed') ? '▶' : '☰';
 });
 
 // ═══════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════
-  
+ClassLabels.init();
 loadStyles();
 </script>
 </body>
