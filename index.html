@@ -465,25 +465,6 @@
     return m;
   }
 
-  async function upsertAssignments(rows) {
-    const payload = rows.map(r => ({
-      style_id: r.style_id,
-      class_code: r.class_code,
-      library_song_id: r.song_id
-    }));
-
-    return await window.db
-      .from('sim_style_song_classes')
-      .upsert(payload, { onConflict: 'library_song_id,style_id' });
-  }
-
-  async function deleteAssignments(styleId, songIds) {
-    return await window.db
-      .from('sim_style_song_classes')
-      .delete()
-      .eq('style_id', styleId)
-      .in('library_song_id', songIds);
-  }
 </script>
 
 <script>
